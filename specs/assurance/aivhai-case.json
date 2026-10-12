@@ -1,0 +1,517 @@
+{
+  "case": "aivhai",
+  "title": "AIVHAI Assurance Case: the proof series as a goal structure",
+  "version": "0.4.6",
+  "status": "draft",
+  "date": "2026-10-11",
+  "summary": "A first draft, written in week five of the project, largely generated automatically by Sigil Logic's HOARDE agents with light review, and not yet vetted in depth by the AIVHAI team; feedback is welcome with that in mind.  The project-level assurance case for AIVHAI, as a skeleton: the root claim is the proof series of issue #1, decomposed by layer of the trusted computing base into G-a (the ISA), G-c (the microarchitecture), G-CF (the compartmentalisation firmware) and G-comp (their composition).  It is grounded in the threat model (specs/assurance/threat-model.md): every threat's disposition names the most specific goal here that is to counter it, or an assumption, exclusion or known gap of this case, and scripts/assurance/check-threat-model.py checks the two against each other in both directions.  The skeleton establishes no AIVHAI result yet: every leaf goal is undeveloped with the reason.  Each layer is read against the record of prior work, the property census of issue #242 (C-prov to C-prov-CF), which names for each goal the canonical properties it needs and the strongest result any earlier CHERI design has for them, none of which is evidence for AIVHAI.  Murali Vijayaraghavan's CHERIoT mechanisations attach as precedents where each bears (C-lin): the abstract specification's theorem beneath G-CF2 (C-CF5, J-CF2), the Guru core and its bounds lemma beside G-a1 and G-c3, and the program logic beside G-CF3.  The RVY plan is context for G-a1 (C-a1).  Capabilities Limited's Sprint 1 demo, the red team's compartment target, is context for G-CF4 and G-CF7 (C-CF4).  The assumptions register is the threat model's A-1 to A-6.  The defeaters carried upward are the CHERIoT case's two: D1, the mis-stated hypothesis, rebutted at the hand-off commit, and D3, whether the corrected hypothesis is satisfiable at all, open; and D2, the Sail Rocq backend's failure, against A-4.",
+  "claim_scope": {
+    "covers": [
+      "The AIVHAI platform as the proposal defines it: a 64-bit CVA6-CHERI application core with the Coral vector and matrix unit integrated into the core, running the CHERI compartmentalisation firmware (CF), with the general-purpose OS, the AI models and the agents as unverified tenants.",
+      "The proof series of issue #1: (a) capability monotonicity of the RVY Sail model with VME over sentry-less, trap-free instruction sequences (sequences that raise no exception and take no interrupt); (c) CVA6-CHERI implementing the RVY Sail ISA including the memory subsystem; (d) and (e) the same with the SystemVerilog and the Guru vector and matrix datapaths; and the CF's confidentiality and integrity for AI models and its self-protection.",
+      "The artifacts at the commits AIVHAI-Everything pins (Sigil-Logic/AIVHAI-Everything at the commit named in C4), and the requirements AIVHAI-SYS-R01 to R12 as stated in specs/requirements/system.md.",
+      "Structural non-bypass: that every memory effect of a tenant crosses a capability-mediated path, and that the CF's state is reachable by no tenant."
+    ],
+    "excludes": [
+      "Semantic benignity: that any model or agent behaves well or reasons correctly (threat model EXCL-1).",
+      "Microarchitectural side channels, including transient execution (EXCL-2); physical attack, fault injection, and electromagnetic or acoustic emanations (EXCL-3).",
+      "Availability: time and space partitioning with budgets, a distinct and harder claim never folded into isolation (EXCL-4).",
+      "Supply-chain compromise of the toolchain that builds the CF (EXCL-5), and a deliberately subverted CF as opposed to a buggy one (EXCL-6).",
+      "DRAM and I/O outside the core (EXCL-7); peripheral DMA is constrained only through the IOPMP and IOMMU, whose correctness is assumption A-3.",
+      "Transfer of the CHERIoT results to the 64-bit core without further proof (EXCL-8): the CHERIoT case beneath G-CF is a stepping stone, not evidence about CVA6-CHERI.",
+      "Any claim about hardware before proofs c, d and e exist: every goal under G-c is undeveloped in this version."
+    ]
+  },
+  "nodes": [
+    {
+      "id": "G0",
+      "kind": "goal",
+      "text": "On the AIVHAI platform, every memory effect of a tenant compartment (an AI model, an agent, or the general-purpose OS) is confined to the capabilities explicitly delegated to it, and the compartmentalisation firmware's own code and state are reachable by no tenant.  Discharges AIVHAI-SYS-R10 (Table A S8/Sigil, S8/evaluation) and R11 (Table A S4/evaluation, S7/evaluation).",
+      "supported_by": [
+        "S0"
+      ],
+      "in_context_of": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "A-1",
+        "A-2",
+        "A-3",
+        "A-4",
+        "A-5",
+        "A-6",
+        "GAP-7",
+        "C-prov",
+        "C-RT1"
+      ]
+    },
+    {
+      "id": "S0",
+      "kind": "strategy",
+      "text": "Argue over the layers of the trusted computing base, from the ISA model upward: the instruction set confines capabilities (G-a); the hardware implements the instruction set (G-c); the firmware uses the instruction set to isolate tenants and itself (G-CF); and the three compose into the platform claim (G-comp).  Each layer's goal is the obligation the threat model dispositions its threats to under that name.",
+      "supported_by": [
+        "G-a",
+        "G-c",
+        "G-CF",
+        "G-comp"
+      ],
+      "in_context_of": [
+        "J0"
+      ]
+    },
+    {
+      "id": "G-a",
+      "kind": "goal",
+      "text": "Over the RVY Sail ISA model, with the VME vector and matrix instructions, no sentry-less, trap-free instruction sequence (one that raises no exception and takes no interrupt) increases authority: every valid capability reachable at its end confers no more authority than some valid capability reachable at its start.  Discharges AIVHAI-SYS-R01 (Table A S1/Sigil, S1/evaluation) and R02 (Table A S1/Capabilities Limited).",
+      "supported_by": [
+        "S-a"
+      ],
+      "in_context_of": [
+        "C6",
+        "A-1",
+        "A-4",
+        "C-prov-a"
+      ]
+    },
+    {
+      "id": "S-a",
+      "kind": "strategy",
+      "text": "First establish the property over the model without VME, the Sprint 1 target, by the T-CHERI method of the Morello proof (per-instruction monotonicity lifted to sequences); then extend the per-instruction lemmas to each VME instruction once the VME model exists.",
+      "supported_by": [
+        "G-a1",
+        "G-a2",
+        "G-a3"
+      ],
+      "in_context_of": [
+        "J-a"
+      ]
+    },
+    {
+      "id": "G-a1",
+      "kind": "goal",
+      "text": "Over the RVY Sail model without VME, at Capabilities-Limited/sail-cheri-riscv@84515a85ead058eb2cc8bffb45496979f2dbdd7c, no sentry-free, trap-free instruction sequence increases authority (RP1; AIVHAI-SYS-R01 scenario S1, which requires that the sequence takes no trap; Table A S1/Sigil), to be shown by decomposing into bounds never widening (RP2, S2), permissions never growing (RP3, S3), tags not forged (RP4, S4), and sentries opaque (RP5, S5).",
+      "undeveloped": "Nothing is proved: the attached RVY case (C-a1) is the proof plan, with every leaf undeveloped and the reasons given there; RP2 for `YBNDSRW` under the compressed encoding is its expected crux.",
+      "in_context_of": [
+        "C-a1",
+        "C-lin",
+        "C-ISA1"
+      ]
+    },
+    {
+      "id": "C-a1",
+      "kind": "context",
+      "text": "The RVY Sail monotonicity case, version 0.4.1, attached as a module with its content unchanged: the proof plan for G-a1, with every leaf undeveloped and the reasons given.  Its G1 is RP1, its G4 is RP2, its G5 groups RP3 to RP5, and its G2 and G3 are the decomposition and lifting obligations.  A plan is context for an undeveloped goal, not evidence for it.  In each public release it is docs/red-team/assurance-case/rvy-sail-monotonicity.case.md.  Artifact: Sigil-Logic/AIVHAI-Sigil@223fbce25cff69ea207d21e97412cbdab4e1a48f:docs/red-team/assurance-case/rvy-sail-monotonicity.case.json.  Re-derive, in a checkout of the artifact at its commit: python3 scripts/release/check-assurance-case.py docs/red-team/assurance-case && cat docs/red-team/assurance-case/rvy-sail-monotonicity.case.md"
+    },
+    {
+      "id": "G-a2",
+      "kind": "goal",
+      "text": "Every VME vector and matrix instruction, as modelled in Sail, never increases authority in a non-trapping execution: its memory accesses are checked by the same bounds and permission rules as scalar accesses, and each valid capability it makes reachable confers no more authority than one reachable before it executed.  Discharges AIVHAI-SYS-R02 (Table A S1/Capabilities Limited) for the capability effect of each VME instruction; threat TM-004 at the ISA level.  The authority effect of a VME instruction that traps is part of the exceptional transition, which is outside G-a as it is outside the RVY case.",
+      "undeveloped": "The VME extension of the Sail model (issue #3) is not yet written, and the VME specification it would model is a pre-freeze draft that has already slipped once (issue #121, threat model GAP-5).",
+      "in_context_of": [
+        "GAP-5"
+      ]
+    },
+    {
+      "id": "G-a3",
+      "kind": "goal",
+      "text": "No VME instruction moves capability-sized data between vector registers and memory with its tag preserved, so the vector unit opens no capability-bearing path outside the scalar capability discipline (threat TM-005).  A part of AIVHAI-SYS-R02 (Table A S1/Capabilities Limited): the VME model must specify each instruction's effect on tags.",
+      "undeveloped": "Depends on the VME model (G-a2); whether VME loads and stores are tag-clearing by specification or by model choice is a question to put to Capabilities Limited and the VME task group before the model fixes an answer."
+    },
+    {
+      "id": "G-c",
+      "kind": "goal",
+      "text": "The CVA6-CHERI hardware implements the RVY Sail ISA model, in the refinement sense that every observable behaviour of the hardware, including the memory subsystem and tag storage and excluding DRAM and I/O, is a behaviour the model permits, both without the vector and matrix unit and with each of its two datapaths.  Discharges AIVHAI-SYS-R03 (Table A S2/Sigil), R08 (Table A S7/Sigil) and R09 (Table A S8/Sigil).",
+      "supported_by": [
+        "S-c"
+      ],
+      "in_context_of": [
+        "C7",
+        "A-4",
+        "A-6",
+        "C-prov-c",
+        "C-ISA1"
+      ]
+    },
+    {
+      "id": "S-c",
+      "kind": "strategy",
+      "text": "Prove the baseline core against the ISA model first (Sprint 2), then each vector and matrix datapath composed with it (Sprints 7 and 8), with the crux stated as its own goal: every vector and matrix memory access is checked exactly as a scalar access is.  Tag storage integrity is a separate goal because a tag flipped in memory forges a capability regardless of the pipeline.",
+      "supported_by": [
+        "G-c1",
+        "G-c2",
+        "G-c3",
+        "G-c4",
+        "G-c5"
+      ],
+      "in_context_of": [
+        "J-c"
+      ]
+    },
+    {
+      "id": "G-c1",
+      "kind": "goal",
+      "text": "The SystemVerilog CVA6-CHERI core without the vector and matrix unit, at Sigil-Logic/cheri-cva6's pinned commit, implements the RVY Sail ISA model (AIVHAI-SYS-R03; Table A S2/Sigil).",
+      "undeveloped": "No proof exists and the method is undecided: whole-model SystemVerilog generation from Sail does not work at the pinned Sail (issue #219), and the Oxford COSMIC verification of CVA6-CHERI against the Sail model is unpublished, so its method cannot yet be adopted or cited."
+    },
+    {
+      "id": "G-c2",
+      "kind": "goal",
+      "text": "CVA6-CHERI composed with the SystemVerilog CHERI VME64 datapath implements the RVY Sail ISA model with VME (AIVHAI-SYS-R08; Table A S7/Sigil).",
+      "undeveloped": "Sprint 7 work; depends on G-c1's method and on the VME model (G-a2).  The SystemVerilog datapath is lowRISC's and does not yet exist."
+    },
+    {
+      "id": "G-c3",
+      "kind": "goal",
+      "text": "CVA6-CHERI composed with the parameterised Guru CHERI VME* datapath implements the RVY Sail ISA model with VME (AIVHAI-SYS-R09; Table A S8/Sigil).",
+      "undeveloped": "Sprint 8 work; the Guru datapath is Cherified's and does not yet exist.  Its proof is expected to be a full-system simulation proof of the pipelined implementation against the atomic functional specification, the Guru method, rather than SVA.",
+      "in_context_of": [
+        "C-lin"
+      ]
+    },
+    {
+      "id": "G-c4",
+      "kind": "goal",
+      "text": "Every vector and matrix memory access made by the in-core accelerator passes through the same MMU, PMP and CHERI checks as a scalar access, so that a VME access can reach no memory that a scalar access by the same compartment could not (the corrected crux of issue #1; threat TM-004).  A part of AIVHAI-SYS-R08 and R09 (Table A S7/Sigil, S8/Sigil), stated separately so that no datapath proof can be called complete without it.",
+      "undeveloped": "The obligation is stated, following Robert Watson's correction of 2026-10-09; the datapaths it is about do not yet exist.  It is listed separately so that no datapath proof can be called complete without it."
+    },
+    {
+      "id": "G-c5",
+      "kind": "goal",
+      "text": "Tag storage is written only by tag-aware paths: the tag controller preserves tags for capability stores by the core and clears them for data writes, and no non-tag-aware agent can set a tag (threats TM-010, TM-038).  A part of AIVHAI-SYS-R03's memory subsystem (Table A S2/Sigil).",
+      "undeveloped": "The tag controller (axi_cheri_tagcontroller) is pinned but not yet analysed; which agents can reach tag storage, and whether peripheral DMA is tag-stripping, is a question for issue #227 and the hardware partners."
+    },
+    {
+      "id": "G-CF",
+      "kind": "goal",
+      "text": "No compartment, and not the general-purpose OS, can read or write another compartment's code, weights or data, or the firmware's own code and state, except through capabilities explicitly delegated to it: structural read and write non-bypass, with availability and semantic benignity excluded.  Discharges AIVHAI-SYS-R04 (Table A S3), R05 (Table A S4), R06 (Table A S5), R07 (Table A S6), R10 (Table A S8/Sigil, S8/evaluation) and R11 (Table A S4/evaluation, S7/evaluation).",
+      "supported_by": [
+        "S-CF"
+      ],
+      "in_context_of": [
+        "C8",
+        "A-2",
+        "A-3",
+        "A-5",
+        "A-6",
+        "GAP-1",
+        "GAP-4",
+        "GAP-9",
+        "C-prov-CF"
+      ]
+    },
+    {
+      "id": "S-CF",
+      "kind": "strategy",
+      "text": "Follow the refinement the proposal and requirements lay out: an informal specification whose rules are the invariants (Sprint 3), a formal model in Rocq from which the properties are theorems (Sprint 4), an implementation ported to the Rocq assembler and proved against the model (Sprints 5 and 6).  Beneath these, the boundary invariants the Sprint 1 demo exercises and the IOPMP dependency.  The CHERIoT theorem is a precedent for the method of G-CF2 (J-CF2), not a goal of this case.",
+      "supported_by": [
+        "G-CF1",
+        "G-CF2",
+        "G-CF3",
+        "G-CF4",
+        "G-CF6",
+        "G-CF7"
+      ],
+      "in_context_of": [
+        "J-CF"
+      ]
+    },
+    {
+      "id": "G-CF1",
+      "kind": "goal",
+      "text": "The CF has an informal specification stating what it grants to compartments and to the OS, whose core rules are the invariants the later goals are stated over.  Discharges AIVHAI-SYS-R04 (Table A S3).",
+      "undeveloped": "Sprint 3 work.  Capabilities Limited's model draft (C-CF1) is the start of this specification and is still under review: on 2026-10-10 its reviewers asked what an invocation-time I/O buffer capability is (rule 7), whether rule 8 should admit local capabilities, and what 'arbitrary system state' means (rule 9), and proposed removing rule 4.  R04 is discharged when the specification is agreed and each Sprint 3 to 8 evaluation property is expressible in its terms.",
+      "in_context_of": [
+        "C-CF1"
+      ]
+    },
+    {
+      "id": "C-CF1",
+      "kind": "context",
+      "text": "Capabilities Limited's compartmentalisation model draft (register entry Almatary-26b): the security goal, the main claim it states, and core rules 1 to 13, with the reviewers' open comments, including Ben Laurie's of 2026-10-10, which propose removing rule 4 and question whether rules 7 and 9 are well defined and whether rule 8 should admit local capabilities passed for one invocation.  A draft under review by the team, snapshotted in the bibliography as read on 2026-10-10 and to be re-snapshotted when it settles.  Artifact: Sigil-Logic/AIVHAI-Sigil@6af36f6ce81b643a57787b1551247cab66bac116:docs/bib/Almatary-26b.md.  Re-derive, in a checkout of the artifact at its commit: sed -n '/^## Core rules/,/^## Final security guarantee/p' docs/bib/Almatary-26b.md"
+    },
+    {
+      "id": "G-CF2",
+      "kind": "goal",
+      "text": "The CF has a formal model in Rocq from which its isolation and self-protection properties are stated as theorems, with the switcher's entry, return and trap paths specified as contracts (AIVHAI-SYS-R05; Table A S4).",
+      "undeveloped": "Sprint 4 work with Cherified; the model's shape is expected to follow cheriot-abstract-spec (same-domain steps proved, domain-crossing steps as switcher contracts) extended to a 64-bit core with a privilege hierarchy and an MMU, neither of which CHERIoT has.",
+      "in_context_of": [
+        "C9",
+        "C-CF5",
+        "J-CF2",
+        "C-lin"
+      ]
+    },
+    {
+      "id": "G-CF3",
+      "kind": "goal",
+      "text": "The CF implementation, ported to the Rocq assembler, meets its formal model, to be shown by a machine-checked proof.  Discharges AIVHAI-SYS-R06 (Table A S5) and R07 (Table A S6).",
+      "undeveloped": "Sprints 5 and 6 work; depends on G-CF2 and on the Rocq assembler, neither of which exists.",
+      "in_context_of": [
+        "C-lin"
+      ]
+    },
+    {
+      "id": "G-CF4",
+      "kind": "goal",
+      "text": "At every compartment entry and return the boundary invariants hold: PCC bounded to the compartment's code, no access-system-registers permission, no default data capability, no residual register or CSR state, and input and output buffers carrying data only (threats TM-013 to TM-018).  A part of AIVHAI-SYS-R11 (Table A S4/evaluation): the self-protection R11 states begins at this boundary.",
+      "undeveloped": "No proof exists, and none of the record's results proves boundary invariants of a firmware trampoline: the ISA proofs take entry state as a hypothesis (C-prov-CF, CAN-10).  The Sprint 1 demo's trampoline (C-CF4) exhibits these invariants on the Sail model for the red team to attack; the CF that will carry them does not exist, and the calling convention it needs is undefined in the model draft.",
+      "in_context_of": [
+        "C-CF4",
+        "C-RT1"
+      ]
+    },
+    {
+      "id": "C-CF4",
+      "kind": "context",
+      "text": "Capabilities Limited's Sprint 1 proof-of-concept demo, the red team's compartment target (threat model §1.2; register entry Almatary-26a for its instructions and attack scope).  Its trampoline bounds the PCC to a 1 MiB-aligned compartment, strips the access-system-registers permission, clears DDC, the integer registers and eight listed CSRs, and enters with `jalr`; each of those four protections is a build-time weakening (BOUNDS, ASR, DDC, REGS_TEMP).  The red team's code is embedded at `compartment_enter`, and a successful attack from inside it reads, modifies, or obtains capability authority over `read_var`, `write_var` or `cheri_infinite_cap`, outside the compartment.  Its author states four assumptions in the source and the instructions: every permission but ASR is retained, so confinement rests on the ISA (G-a1, A-1); floating-point, vector and counter state is not cleared (G-CF7); side channels are out of scope (EXCL-2); and bounds representability depends on base and size (threat TM-002, RP2).  Capabilities Limited (Ben Laurie, with Claude) is developing a Rocq proof of isolation properties of this prologue over the RVY Sail model; it is unpublished and is not evidence here, though on 2026-10-11 it found the two model divergences A-1 records.  The demo itself is a demonstration on the Sail model, not a proof that any firmware establishes the invariants: a capture with no weakening enabled is a defeater against G-CF4 or G-a1, and is recorded as one.  Artifact: Capabilities-Limited/aivhai-fw-compartment@9691cf2e0c092f880f0aa57c7c3e70abf95b1b1e:fw_compartment.S.  Re-derive, in a checkout of the artifact at its commit: sed -n '/compartment_setup:/,/jalr ra/p' fw_compartment.S"
+    },
+    {
+      "id": "G-CF6",
+      "kind": "goal",
+      "text": "The CF's configuration of the IOPMP and IOMMU confines every peripheral DMA transaction to the memory its requester is permitted, and the configuration is locked in the order and priority the IOPMP specification requires, so that the CF's own self-protection does not rest on an unlocked table (threats TM-034, TM-035, TM-048).  A part of AIVHAI-SYS-R11 (Table A S4/evaluation, S7/evaluation).",
+      "undeveloped": "The IOPMP and IOMMU implementations the platform will use are not yet identified, and their maturity is unassessed; issue #227 is the early engagement Robert Watson asked for.  Until then their correctness is assumption A-3, and the CF's lock discipline has no specification to be stated against.",
+      "in_context_of": [
+        "GAP-2",
+        "GAP-3"
+      ]
+    },
+    {
+      "id": "G-comp",
+      "kind": "goal",
+      "text": "The three layer obligations, once discharged, compose: an authority property of the Sail model (G-a), a refinement of that model by the hardware (G-c), and firmware properties over the same model (G-CF) together entail the platform claim G0 for the hardware as built.  Discharges AIVHAI-SYS-R10 (Table A S8/evaluation) jointly with G-CF; the composition theorem is its own obligation.",
+      "undeveloped": "The composition theorem is not stated.  Two refinement chains reach RTL, SystemVerilog and Guru, and where they meet is issue #52 E3 (threat model GAP-6); the Sail-to-Guru relation, and whether the CF's proofs are over the Sail model or a Guru model of it, are undecided.  This goal is expected to stay undeveloped for several sprints, and is stated now so that it cannot be forgotten.",
+      "in_context_of": [
+        "GAP-6",
+        "GAP-8"
+      ]
+    },
+    {
+      "id": "C1",
+      "kind": "context",
+      "text": "The system and its trust boundary are those of threat model §1, as corrected on 2026-10-09: the accelerator is part of the RISC-V core, sharing its decode and memory subsystem, and is designed to be constrained by the same MMU, PMP and CHERI checks, which G-c4 is to establish; there is no NPU DMA path; DMA exists for other peripherals behind the IOPMP and IOMMU."
+    },
+    {
+      "id": "C2",
+      "kind": "context",
+      "text": "The threat model, specs/assurance/threat-model.md (issue #225), whose threats TM-001 to TM-050 are each dispositioned to a goal of this case, naming the most specific goal that is to counter the threat and a layer goal (G-a, G-c, G-CF, G-comp) only where no sub-goal is specific to it; to an assumption A-1 to A-6; to an exclusion EXCL-1 to EXCL-8 (the claim_scope excludes entries); or to a known gap GAP-1 to GAP-9 (the context nodes of those names, each attached to the goal it bears on).  The adversaries this case argues against are its ADV-1 to ADV-8.  scripts/assurance/check-threat-model.py checks the correspondence in both directions: every name a threat's disposition uses exists here, and every threat a goal here cites names that goal or one of its sub-goals."
+    },
+    {
+      "id": "C3",
+      "kind": "context",
+      "text": "The requirements AIVHAI-SYS-R01 to R12 in specs/requirements/system.md (issue #162, PR #175 at b9d702a), each of which names its Table A cell as a source.  Every goal that discharges a requirement names it and the Table A cell from that requirement's Source line; a goal that discharges none names the requirement it is a part of.  Precedents are not goals: the CHERIoT theorem is context C-CF5 and justification J-CF2 of G-CF2, and discharges nothing."
+    },
+    {
+      "id": "C4",
+      "kind": "context",
+      "text": "The pinned artifact set is Sigil-Logic/AIVHAI-Everything@0cca9e107dc518c12fcdbce43dc0e1ef544d928b, tagged deliverable/sprint-1-handoff-2026-10-12 and frozen as deliverables/sprint-1-handoff-2026-10-12.tsv: the RVY Sail model at 84515a85ead0 on 0.9.9-undo-branch-restriction (moved on 2026-10-11 from 716106581bb5 on 0.9.9-upgrade, to carry that day's model fixes), the RVY specification at 2946806c, Capabilities Limited's compartment firmware at 9691cf2e, cheri-cva6 at 98e7e4e1, coralnpu at 094de4ec, the CHERIoT lineage (cheriot-abstract-spec at f754796a, the Guru cheriot core at f76e94d5, cheriot-program-logic at 6bc57624, Guru at b72afeef), and the IOPMP and IOMMU specifications, among 49 manifest rows that record branch, commit, licence and role.  One Sprint 1 artifact differs from that set, and the release manifest names it by commit: the CHERIoT hand-off commit is Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f, tagged handoff/2026-10-12 on the fork's main, which is f754796 with the author's one-line FuncNormal fix and comment-only documentation of Properties.v and Spec.v.  RELEASE.json carries the frozen set with each release."
+    },
+    {
+      "id": "C5",
+      "kind": "context",
+      "text": "Table A of the proposal assigns Sigil Logic's column by sprint: S1 monotonicity of the CHERI ISA; S2 proof of the baseline CVA6-CHERI; S3 CF informal specification; S4 CF formal model; S5 Rocq assembler and CF port; S6 proof of the CF implementation; S7 CVA6-CHERI with the SystemVerilog VME64 datapath; S8 CVA6-CHERI with the Guru VME* datapath and end-to-end AI-model confidentiality and integrity.  Each sprint also names the evaluation property the red team attacks (AIVHAI-SYS-R12)."
+    },
+    {
+      "id": "C6",
+      "kind": "context",
+      "text": "Reachable capabilities and authority, as the RVY case defines them (its C2 and C4): reachability is the transitive closure of the capability graph from the register file, the special capability registers and the program counter capability through every valid capability loadable in memory, irrespective of which memory any software believes it owns; a capability confers no more authority than another when both are valid, its bounds lie within the other's, and its permissions are a subset of the other's.  The property is about authority, not the set of capabilities, because deriving new, distinct capabilities by narrowing does not increase authority.  Sentry calls and returns, and exceptions, interrupts and traps, are excluded from the Sprint 1 sequences by design, as the RVY case excludes them: crossing a domain, by call or by trap, is what the CF goals address."
+    },
+    {
+      "id": "C7",
+      "kind": "context",
+      "text": "Two implementations of the vector and matrix datapath are planned, one in SystemVerilog by lowRISC and one in Guru by Cherified, so that targets d and e are two proofs over two artifacts against one ISA model.  The only published verification of a CHERI core against a Sail model by compilation to SystemVerilog is the CHERIoT-Ibex work (Ploix et al., 2025); the Oxford COSMIC work on CVA6-CHERI is unpublished."
+    },
+    {
+      "id": "C8",
+      "kind": "context",
+      "text": "The firmware-layer adversary is the threat model's ADV-1 (a tenant executing arbitrary code, not assumed purecap) and ADV-2 (the general-purpose OS, compromised, with S-mode privilege), with the CF's own defects as ADV-8.  The Sprint 1 and 2 model is synchronous: one compartment invoked at a time, running until it returns, with no scheduler and no heap allocator."
+    },
+    {
+      "id": "C9",
+      "kind": "context",
+      "text": "CHERIoT is a 32-bit embedded CHERI design with no privilege hierarchy and no MMU; its theorem is over an abstract specification, not a core.  Nothing proved about it transfers to CVA6-CHERI without further proof.  Its case is attached as C-CF5 because its structure, same-domain steps proved and domain-crossing steps as switcher contracts, is the structure G-CF2 is expected to take."
+    },
+    {
+      "id": "A-1",
+      "kind": "assumption",
+      "status": "open",
+      "text": "The Sail model faithfully represents the RVY specification.  Capabilities Limited intends the model to become the specification, but it is not one yet; Trail of Bits' Sprint 1 audit tests exactly this assumption (threats TM-006, TM-007).  It has already failed twice: on 2026-10-11, Capabilities Limited's Rocq proof of the demo's prologue found a sentry keeping its tag through a JALR with a non-zero immediate (TM-003) and CBO.ZERO leaving tags set (TM-049); both were fixed that day, and the pinned model carries the fixes.  A divergence of this kind is also copied into hardware validated against the model in tandem verification, as CVA6-CHERI's JALR was (TM-050), so G-c's refinement goals establish nothing about the intended design unless this assumption holds.  Capabilities Limited's write-up of both failures is C-ISA1."
+    },
+    {
+      "id": "A-2",
+      "kind": "assumption",
+      "status": "open",
+      "text": "The initial machine state is valid: the boot image is the one built, bootstrap grants only the declared authority, and compartments start with disjoint reachable capabilities.  Whether a measured or authenticated boot is in the project's scope is undecided (threat TM-029, GAP-7)."
+    },
+    {
+      "id": "A-3",
+      "kind": "assumption",
+      "status": "open",
+      "text": "The IOPMP and IOMMU are implemented correctly, and requester IDs are tagged faithfully at the fabric.  Neither is assessed; the IOPMP is suspected to be of prototype quality, and requester-ID tagging is implementation-defined (threats TM-034, TM-036; issue #227; GAP-2, GAP-3)."
+    },
+    {
+      "id": "A-4",
+      "kind": "assumption",
+      "status": "accepted",
+      "text": "The prover kernels (Rocq, and any other proof assistant used), the Sail prover backends, and the pinned toolchain images are trusted.  Accepted as the conventional trusted base for a mechanised proof, and stated so that it is visible; defeater D2 records that the Sail Rocq backend does not yet work on this model, so the route this assumption is about does not yet exist (threat TM-041)."
+    },
+    {
+      "id": "A-5",
+      "kind": "assumption",
+      "status": "open",
+      "text": "No capability with the capability-write permission to memory outside a compartment survives that compartment's bootstrap, so a compartment can neither write capabilities outside itself nor defeat destruction without revocation (threat TM-019; Brooks Davis's comment on the model draft and Hesham Almatary's proposed trampoline rule)."
+    },
+    {
+      "id": "A-6",
+      "kind": "assumption",
+      "status": "open",
+      "text": "Any privileged capability-creation or tag-setting mechanism the architecture provides is disabled during evaluation, and no external debugger is active (threats TM-043, TM-044; the Morello proof's non-goal (4))."
+    },
+    {
+      "id": "J0",
+      "kind": "justification",
+      "text": "Layering by trusted computing base is the decomposition the proposal itself uses (Table A's sprints run ISA, core, firmware), and it matches how every CHERI assurance result in the bibliography is stated: ISA properties over a Sail model, hardware refinement of that model, and software properties over the same model.  The composition step is made its own goal (G-comp) because the decomposition is sound only if it is proved, not assumed."
+    },
+    {
+      "id": "J-a",
+      "kind": "justification",
+      "text": "The T-CHERI method has been mechanised twice for complete CHERI ISAs (CHERI-MIPS, Nienhuis et al., IEEE S&P 2020; Morello, Bauereiss et al., ESOP 2022), so the method's risk is low; the RVY instantiation, the compressed-encoding crux of RP2, and VME are what is new."
+    },
+    {
+      "id": "J-c",
+      "kind": "justification",
+      "text": "A hardware implementation that refines the ISA model preserves every safety property proved of the model, including G-a; this is why the hardware obligation is implementation correctness against the model rather than a second proof of monotonicity.  Where the refinement is itself proved by compiling the Sail model to a SystemVerilog reference (the CHERIoT-Ibex method), the compilation step joins the trusted base under A-4."
+    },
+    {
+      "id": "J-CF",
+      "kind": "justification",
+      "text": "Stating the CF's invariants informally first, then as a Rocq model, then proving the implementation against it, is the refinement chain the requirements fix (R04, R05, R07) and the one cheriot-abstract-spec followed; the boundary invariants beneath it are what the Sprint 1 demo lets the red team attack before any of the three exists."
+    },
+    {
+      "id": "D1",
+      "kind": "defeater",
+      "status": "rebutted",
+      "defeats": "J-CF2",
+      "raised": "Murali Vijayaraghavan, the specification's author, 2026-10-08; tracked as issue #224",
+      "text": "The CHERIoT case's D1: at f754796, `FuncNormal` applied `normalInst` to memory `m1` twice where the second application was intended to use `m2`, so that case's per-instruction hypothesis A3 meant something other than intended, and the precedent J-CF2 rests on stated a different theorem from the one intended.",
+      "resolution": "Rebutted at the hand-off commit Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f, which carries the author's one-line fix (OpenSeCura 21cd9bf) and against which the theorem builds and Print Assumptions reports no axiom (the CHERIoT case's E3 and E2).  The case rebuts its own D1 on that evidence and carries the remaining question as its D2, which is D3 here."
+    },
+    {
+      "id": "D2",
+      "kind": "defeater",
+      "status": "open",
+      "defeats": "A-4",
+      "raised": "HOARDE Claude, from issue #218 and the bibliography survey of 2026-10-09",
+      "text": "Sail 0.20.2's Rocq backend fails on the shared sail-riscv code at the pinned model, and no work in the bibliography has used Sail's Coq/Rocq backend for an assurance result; every Sail-based proof there went through Isabelle.  If the Sprint 1 proof is to be in Rocq, A-4 trusts a translation route with no precedent and, today, no working instance; the alternative routes (Isabelle, or SystemVerilog generation per issue #219) change which tools A-4 names."
+    },
+    {
+      "id": "GAP-1",
+      "kind": "context",
+      "text": "Known gap GAP-1 (threat model §8): shared compartments and preemption; whether one caller may affect another's invocation of the same compartment, and what interrupts do to the synchronous model (TM-026, TM-027).  Owner: #225, to raise with Capabilities Limited."
+    },
+    {
+      "id": "GAP-2",
+      "kind": "context",
+      "text": "Known gap GAP-2: requester-ID integrity at the fabric; the IOPMP specification leaves RRID tagging implementation-defined, so AIVHAI must claim it of the SoC or exclude it (TM-036, TM-010).  Owner: #227."
+    },
+    {
+      "id": "GAP-3",
+      "kind": "context",
+      "text": "Known gap GAP-3: ownership of the IOMMU tables, CF or general-purpose OS (TM-037).  Owner: #227."
+    },
+    {
+      "id": "GAP-4",
+      "kind": "context",
+      "text": "Known gap GAP-4: runtime delegation of authority beyond data-only I/O buffers, temporary I/O-buffer delegation and service calls into OpenSBI or the OS, both signposted in the model draft, neither designed (TM-021, TM-046).  Owner: Capabilities Limited."
+    },
+    {
+      "id": "GAP-5",
+      "kind": "context",
+      "text": "Known gap GAP-5: the VME specification is not frozen (TM-007).  Owner: #121."
+    },
+    {
+      "id": "GAP-6",
+      "kind": "context",
+      "text": "Known gap GAP-6: where the SystemVerilog and Guru refinement chains meet (TM-009).  Owner: #52 E3."
+    },
+    {
+      "id": "GAP-7",
+      "kind": "context",
+      "text": "Known gap GAP-7: root of trust for the boot image; whether a measured or authenticated boot is in the project's scope at all (TM-029).  Owner: #1; not in the proposal's proof series."
+    },
+    {
+      "id": "GAP-8",
+      "kind": "context",
+      "text": "Known gap GAP-8: concurrency; the Sprint 1 target is sequential and the multi-tenant platform is not (TM-045).  Owner: #1, against the sprint that introduces a multi-hart model."
+    },
+    {
+      "id": "GAP-9",
+      "kind": "context",
+      "text": "Known gap GAP-9: compartment destruction and reuse; the model draft's lifecycle is an optional appendix its reviewers set aside, so whether destruction is in scope for Sprints 1 and 2 is undecided (TM-047).  Owner: Capabilities Limited."
+    },
+    {
+      "id": "C-CF5",
+      "kind": "context",
+      "text": "The CHERIoT thread-isolated monotonicity case, version 0.3.1, attached as a module with its content unchanged: a proved theorem, narrowly scoped, at the hand-off commit Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f, with its own assumptions A1 to A4, its defeater D1 rebutted there and its defeater D2 open, and its build-log and Print Assumptions evidence (E3, E2) recorded under .evidence/cheriot-abstract-spec/.  A result about CHERIoT, included in the Sprint 1 release for pedagogy and not as a red-team target, and not evidence for any AIVHAI goal: nothing proved about it transfers to the 64-bit core without further proof (EXCL-8).  In each public release it is docs/red-team/assurance-case/cheriot-thread-isolated-monotonicity.case.md.  Artifact: Sigil-Logic/AIVHAI-Sigil@1d750379db597fd3ee6dcf028648290cd4b7d3d1:docs/red-team/assurance-case/cheriot-thread-isolated-monotonicity.case.json.  Re-derive, in a checkout of the artifact at its commit: python3 scripts/release/check-assurance-case.py docs/red-team/assurance-case && cat docs/red-team/assurance-case/cheriot-thread-isolated-monotonicity.case.md"
+    },
+    {
+      "id": "J-CF2",
+      "kind": "justification",
+      "text": "The shape G-CF2 is expected to take, same-domain steps proved by an inductive invariant and domain-crossing steps specified as switcher contracts, has been mechanised once for a CHERI ISA: `ThreadIsolatedMonotonicity` in the CHERIoT abstract specification (C-CF5), over a 32-bit design with no privilege hierarchy and no MMU.  That is a precedent for the method, not evidence that the 64-bit model will admit the same invariant; the transfer is G-CF2's own obligation."
+    },
+    {
+      "id": "D3",
+      "kind": "defeater",
+      "status": "open",
+      "defeats": "J-CF2",
+      "raised": "Murali Vijayaraghavan, 2026-10-08, as the second half of the CHERIoT case's D1; separated out 2026-10-09 as that case's D2",
+      "text": "The CHERIoT case's D2: no instruction is shown to satisfy the corrected per-instruction hypothesis (`WfNormalInst`), and if none does, the theorem is vacuous.  A vacuous theorem is no precedent for the method G-CF2 is expected to follow, so until a witness instruction is checked against the definition, J-CF2's precedent is in doubt."
+    },
+    {
+      "id": "G-CF7",
+      "kind": "goal",
+      "text": "No tenant's vector, matrix, floating-point or counter state is readable or modifiable by another compartment across a compartment entry, return or switch: the firmware, with the datapath's context-switch support, saves and clears that state, or shows it carries nothing, before another compartment runs (threats TM-016, TM-031, TM-032, TM-033).  A part of AIVHAI-SYS-R10 (Table A S8/Sigil, S8/evaluation): a tenant's activations and weights pass through this state.",
+      "undeveloped": "No VME model, no CF and no datapath exist to state it over, and the record has no theorem about any tenant state across switches (C-prov-CF; census §5.1).  The Sprint 1 demo deliberately does not clear this state, under its author's stated assumption that nothing sensitive is placed there before entry and that it neither switches context nor takes interrupts (C-CF4); that assumption does not hold of the CF.",
+      "in_context_of": [
+        "C-CF4",
+        "GAP-5"
+      ]
+    },
+    {
+      "id": "C-prov",
+      "kind": "context",
+      "text": "The property census of prior work, specs/assurance/property-provenance.md (issue #242, PR #246), with its catalogue specs/assurance/property-catalogue.jsonl: the properties earlier CHERI and RISC-V designs have stated, tested, checked or proved, each with its source, its residual assumptions and its strongest result, condensed into the canonical set CAN-01 to CAN-18, and mapped onto this case's goals (its §4).  It records precedent and obligation, not evidence: no row of it is evidence for any AIVHAI goal, and its §5.1 lists what the record has never established that this case needs.  The layer context nodes C-prov-a, C-prov-c and C-prov-CF carry its findings to the goals they bear on."
+    },
+    {
+      "id": "C-prov-a",
+      "kind": "context",
+      "text": "Prior work at the ISA layer (census CAN-01 to CAN-07, feeding RP1 to RP5): provenance validity, monotonicity, bounds never widening, permissions never growing, sentry opacity, encoding round-trip and reachability have each been proved for some CHERI design, at ISA scale for CHERI-MIPS (Isabelle over L3) and Morello (Sail to Isabelle), as a same-domain fragment for CHERIoT (Rocq), and per encoding by SMT, HOL4 and the Guru `BoundsMonotonic` lemma.  None has been proved at instruction-sequence level for a RISC-V CHERI ISA, through any Sail backend, and no vector or matrix instruction under CHERI has a mechanised result; those are the obligations G-a1, G-a2 and G-a3 take on."
+    },
+    {
+      "id": "C-prov-c",
+      "kind": "context",
+      "text": "Prior work at the microarchitecture layer (census CAN-11 to CAN-13c): observational correctness of a CHERI core against a Sail model has been proved for CHERIoT-Ibex and checked for CHERI-Flute, both in-order and without an MMU or caches; bounds and permission checks first, and tag-storage atomicity and clearing, are proved for no core beyond Ibex's in-core well-formedness invariant, and model checking found a bounds-check overflow and a load-side tag leak in CHERIoT-Ibex.  Refinement for an application-class, cached, MMU-bearing CHERI core, and any result for capability-aware vector accesses (G-c4), are without precedent."
+    },
+    {
+      "id": "C-prov-CF",
+      "kind": "context",
+      "text": "Prior work at the firmware layer (census CAN-08 to CAN-10, CAN-15, CAN-16): compartment isolation is proved for CHERI-MIPS up to the first domain transition, for Morello-Cerise past it under strong hypotheses for one routine, and for CHERIoT on same-domain traces; domain-crossing contracts are proved for Morello invocation and stated without proof for the CHERIoT switcher; boundary invariants at entry and return, peripheral DMA confinement and bootstrap closure are tested, never proved.  No result covers a 64-bit firmware with a privilege hierarchy and an MMU beneath mutually distrusting tenants, nor any tenant state across switches (G-CF7); temporal safety and revocation (CAN-17) bear on GAP-9."
+    },
+    {
+      "id": "C-lin",
+      "kind": "context",
+      "text": "Murali Vijayaraghavan's CHERIoT mechanisations, pinned in AIVHAI-Everything, and where each bears on this case (docs/evidence-candidates.md says what each can and cannot support): (1) the abstract specification in Rocq, whose `ThreadIsolatedMonotonicity` (C-CF5) is the precedent for G-CF2's shape; its per-instruction hypothesis `WfGeneralInst` is the kind of fact G-a's per-instruction lemmas must prove rather than assume; its `SwitcherProperty` contracts, stated without proof, are the kind G-CF2 and G-CF4 need proved; and its `WFConfig` and `ValidInitialMachine` are the form A-2 takes.  (2) The Guru-based `cheriot` core, whose `BoundsMonotonic` lemma proves RP2's property for CHERIoT's encoding (precedent for G-a1's crux), and whose generation from a Rocq specification is the method G-c3's Guru datapath is to follow; it is not built at the pins.  (3) The program logic, a candidate bridge for the switcher contracts and for G-CF3's implementation proof, with admitted definitions and no trap semantics.  All three are 32-bit CHERIoT, and none is evidence for an AIVHAI goal (EXCL-8)."
+    },
+    {
+      "id": "C-RT1",
+      "kind": "context",
+      "text": "The Sprint 1 red-team engagement, week of 2026-10-12, is a practice run as the consortium warms up its pipeline and team.  Its formal ask, following Robert Watson's steer of 2026-10-11, is that the red team take two artifacts with their documentation and say what is wrong: the RVY Sail model with its latest fixes, read against the human-readable draft specification, which tests A-1 and bears on G-a1 through RP1 to RP5; and Capabilities Limited's bare-metal compartment firmware (C-CF4), which bears on G-CF4, G-CF7 and, through its retained permissions, G-a1.  The defects most wanted are those, against the specification or its intent, that could lead to security harm and motivate changes to the specification and the model; the two of 2026-10-11 (C-ISA1) are the illustration.  The CHERIoT development (C-CF5) and the rest of the corpus accompany it for pedagogy and the longer-term vision, and are not evaluation targets.  Findings enter this case as defeaters on the node they bear on (docs/red-team/findings.md), and REDTEAM.md at the root of each release is the map."
+    },
+    {
+      "id": "C-ISA1",
+      "kind": "context",
+      "text": "Capabilities Limited's write-up of the two RVY Sail model divergences found on 2026-10-11 (register entry Watson-26): a JALR with a non-zero immediate to a sentry kept its tag, completing an incomplete fix of 2026-10-06 (threat TM-003, RP5), and CBO.ZERO left tags set on memory it zeroed (TM-049, RP4).  Both were found by Ben Laurie's Rocq proof of the compartment prologue, with Claude, and fixed by Peter Rugg and Jessica Clarke the same day; the pinned model carries the fixes.  It states why model bugs matter: the specification will likely be derived from the model, hardware is validated against it (TM-050), and proofs over a wrong model do not hold of the intended design.  It records failures of A-1, and is evidence for no goal.  Capabilities Limited calls these preliminary research results, to be validated further.  The red team receives docs/red-team/sprint-1/isa-issues-2026-10-11.md, a copy without the two passages its author marked not for public release; the full text is withheld from the public mirror.  Artifact: Sigil-Logic/AIVHAI-Sigil@c096bee93db4b2b1fd417c632aa7bd1de425bff1:docs/bib/Watson-26.md.  Re-derive, in a checkout of the artifact at its commit: sed -n '/^## Issue 1/,/^## Appendix/p' docs/bib/Watson-26.md"
+    }
+  ]
+}

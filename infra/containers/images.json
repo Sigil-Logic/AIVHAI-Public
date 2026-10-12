@@ -1,0 +1,129 @@
+{
+  "comment": [
+    "Upstream images this platform depends on, pinned by digest (PLAT-D28).",
+    "digest is the linux/amd64 manifest digest, which is what actually runs:",
+    "PLAT-D03 makes the amd64 container the authoritative toolchain, and a",
+    "multi-arch tag resolves to a different digest per platform. listDigest is",
+    "the manifest-list digest, recorded so a reader can tell the two apart.",
+    "tag is a human label only; nothing resolves through it.",
+    "Maintained by infra/containers/pin-images.sh; --check reports drift.",
+    "Verilator is not one version: the SBOM's Gap 3 records four. Two are concrete pins and are taken as published images; coralnpu's patched build belongs to the coral image, and cheri-cva6 builds its own."
+  ],
+  "platform": "linux/amd64",
+  "images": [
+    {
+      "ref": "ghcr.io/galoisinc/cryptol:nightly",
+      "tier": 1,
+      "covers": "Cryptol",
+      "digest": "sha256:31c4f90dcb3ee30f60298010b165d37f0e669c225c794f92d07693d671b93eed"
+    },
+    {
+      "ref": "ghcr.io/galoisinc/saw:nightly",
+      "tier": 1,
+      "covers": "SAW",
+      "digest": "sha256:075835844ca331eaaf4b99504b7ccfa66bcf3082060222447d4fb3f4e04a8a56"
+    },
+    {
+      "ref": "ghcr.io/galoisinc/crux-llvm:nightly",
+      "tier": 1,
+      "covers": "Crux-LLVM",
+      "digest": "sha256:63efd8ee541f31c71824e360ef506968596fe1a5437f71015ac2b70b218970ab"
+    },
+    {
+      "ref": "ghcr.io/galoisinc/crux-mir:nightly",
+      "tier": 1,
+      "covers": "Crux-MIR",
+      "digest": "sha256:3c7fcc5752d0a405973236e68c49409ab10679c5a341dacf5f65efb257bb3e10"
+    },
+    {
+      "ref": "ghcr.io/galoisinc/mir-json:nightly",
+      "tier": 1,
+      "covers": "mir-json, Rust nightly pin baked",
+      "digest": "sha256:4c2fbc3625bf60cc6fa40e009cbb5db4ccd20e9ad099b6554190d077a5ee5a2f",
+      "listDigest": "sha256:4c2fbc3625bf60cc6fa40e009cbb5db4ccd20e9ad099b6554190d077a5ee5a2f"
+    },
+    {
+      "ref": "ghcr.io/galoisinc/cryptol-remote-api:nightly",
+      "tier": 1,
+      "covers": "how HOARDE drives Cryptol",
+      "digest": "sha256:baae34fbc3288a92d0af4af144cfb628a954cb9dbb721d7f949c591e019dfd2c"
+    },
+    {
+      "ref": "ghcr.io/galoisinc/saw-remote-api:nightly",
+      "tier": 1,
+      "covers": "how HOARDE drives SAW",
+      "digest": "sha256:7cfa450422560e510de3594f26bda720e8d4079be08dff224f14b846bf4b6d67"
+    },
+    {
+      "ref": "docker.io/rocq/rocq-prover:9.0",
+      "tier": 1,
+      "covers": "Rocq switch 9.0",
+      "digest": "sha256:3ed9c46fa02e9fd7748a959abebb11b36f8818d10738dcc93edc67354c313ce2"
+    },
+    {
+      "ref": "docker.io/rocq/rocq-prover:9.1",
+      "tier": 1,
+      "covers": "Rocq switch 9.1",
+      "digest": "sha256:9a1e969649a3cc3c6f310d5be5a842e2187384560337c6c0807aba9f8565efba"
+    },
+    {
+      "ref": "ghcr.io/riscv/riscv-docs-base-container-image:latest",
+      "tier": 1,
+      "covers": "riscv-cheri / riscv-vme document build",
+      "digest": "sha256:124d99ee90d2f281701fb439ede950ef5c017915a25860eb67545e905ad18e02",
+      "listDigest": "sha256:124d99ee90d2f281701fb439ede950ef5c017915a25860eb67545e905ad18e02"
+    },
+    {
+      "ref": "docker.io/ctsrd/testrig-builder:latest",
+      "tier": 1,
+      "covers": "TestRIG",
+      "digest": "sha256:3398a068fc20c8d6b0fba581c57665efe65a77a7ec3b5366cca1bb9bc78955ec"
+    },
+    {
+      "ref": "docker.io/verilator/verilator:v5.028",
+      "tier": 1,
+      "covers": "Verilator 5.028, pinned by cv-hpdcache",
+      "digest": "sha256:8c17deb6d54b9eed14672e159229dfed4e290a5048b71a57495ae99817fc782f",
+      "listDigest": "sha256:914f3bd5a89ae619d8609432fa5c9ebbbabb82bfd7e5427317fd240d3145c876"
+    },
+    {
+      "ref": "docker.io/verilator/verilator:v5.038",
+      "tier": 1,
+      "covers": "Verilator 5.038, built from source by Guru's devcontainer",
+      "digest": "sha256:5877ab0a64b2428845eb1b35af7f0a86d1aac2511d25ce134f2fc762126f101b",
+      "listDigest": "sha256:cf1171eca32f0bfdd8acde2ae870b60a29be53465269f1c8f11c86e0c4e87013"
+    },
+    {
+      "ref": "docker.io/nixos/nix:latest",
+      "tier": 1,
+      "covers": "Nix",
+      "digest": "sha256:617d914dba5384bf75adf17081583b69371031ec7defce36c34c5fa14fc819b0",
+      "listDigest": "sha256:617d914dba5384bf75adf17081583b69371031ec7defce36c34c5fa14fc819b0"
+    },
+    {
+      "ref": "docker.io/makarius/isabelle:latest",
+      "tier": 1,
+      "covers": "Isabelle",
+      "digest": "sha256:9bd33b183c399327c5d554fc8cde27c29b5d2b20cdc6fe7a604caa3f951018fc"
+    },
+    {
+      "ref": "docker.io/hdlc/yosys:latest",
+      "tier": 1,
+      "covers": "upstream Yosys, the BASELINE half of the negative control",
+      "digest": "sha256:507c2c0dc0b519440a9f52ae9e7c2eb8eff45a8d1bb0bb5642264c64617c7b67"
+    },
+    {
+      "ref": "docker.io/hdlc/formal:latest",
+      "tier": 1,
+      "covers": "upstream Yosys formal chain",
+      "digest": "sha256:b6738252990087fdb3a44787a3949eca3c22d1ff356fb79a6f68e25ef15c991a"
+    },
+    {
+      "ref": "ghcr.io/cheriot-platform/devcontainer:latest",
+      "tier": 1,
+      "covers": "CHERIoT LLVM and RTOS",
+      "digest": "sha256:36388d620c05d1a427229daf6fa5573d4a8d578572823455f0ed769f3b7b3d63",
+      "listDigest": "sha256:865a2831bf9f24114b64bc3d250789cbe5384372e82ac82b39b8fd09faba988a"
+    }
+  ]
+}

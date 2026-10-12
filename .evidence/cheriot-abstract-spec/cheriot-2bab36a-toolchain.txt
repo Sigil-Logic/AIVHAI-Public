@@ -1,0 +1,7 @@
+# Packages matching: installed & (name-match(rocq-core) | name-match(rocq-stdlib) | name-match(rocq-runtime))
+# Name       # Installed
+rocq-core    9.1.0
+rocq-runtime 9.1.0
+rocq-stdlib  9.0.0
+The Rocq Prover, version 9.1.0
+compiled with OCaml 4.14.2

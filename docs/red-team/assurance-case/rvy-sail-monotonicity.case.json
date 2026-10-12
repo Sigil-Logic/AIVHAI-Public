@@ -1,0 +1,113 @@
+{
+  "case": "rvy-sail-monotonicity",
+  "title": "Assurance Case Plan: RVY Sail Model, Sentry-Less Instruction-Sequence Capability Monotonicity",
+  "version": "0.4.1",
+  "status": "draft",
+  "date": "2026-10-11",
+  "summary": "The second worked example, and the opposite case to the first: a planned argument with nothing yet proved.  It shows how an AIVHAI case looks before its evidence exists, with every leaf goal marked undeveloped and the reason given, and nothing proved, so that a reader can tell a plan from a result at a glance.  The property is the Sprint 1 proof target.  The model is the one Trail of Bits audits against the RVY specification in Sprint 1.  The method follows the Morello monotonicity proof (Bauereiss et al., ESOP 2022); what would be new is its instantiation to RVY.  The goals trace to requirement AIVHAI-SYS-R01: G1 is its scenario S1 (RP1 in the hand-off), G4 is S2 (RP2), and G5 covers S3 to S5 (RP3 to RP5).  The wording follows Jessica Clarke's review of 2026-10-09.",
+  "claim_scope": {
+    "covers": [
+      "Capabilities Limited's RVY Sail model, `sail-cheri-riscv` at Capabilities-Limited/sail-cheri-riscv@84515a85ead058eb2cc8bffb45496979f2dbdd7c (branch `0.9.9-undo-branch-restriction`, the Sprint 1 model from 2026-10-11), mirrored at Sigil-Logic/sail-cheri-riscv.",
+      "Instruction sequences that execute no sentry call or return, so that the sequence never enters another context with a different set of accessible capabilities.",
+      "The property that such a sequence never increases authority: every valid capability reachable at its end confers no more authority than some valid capability reachable at its start."
+    ],
+    "excludes": [
+      "Sentry calls and returns, and anything after one.  This restriction is deliberate scoping: crossing a domain is what the later sprints' compartmentalisation properties address.",
+      "The vector and matrix (VME) extensions.  The Sprint 1 red-team target is the model without vector.",
+      "Agreement between the Sail model and the RVY specification text, which is what Trail of Bits is auditing in Sprint 1; this case assumes the model (A1).",
+      "Any hardware implementation, including CVA6-CHERI: microarchitectural correctness against this model is a later proof.",
+      "Devices and DMA engines outside the core, governed by the IOPMP and IOMMU, whose maturity has not yet been assessed.",
+      "Exceptions, interrupts, and traps.  The plan treats sentry calls and returns as the only domain crossings; a trap also changes context, and is excluded until the plan says how it is handled.",
+      "More than one hart, and any concurrent writer to memory (devices included): the property is stated for a single hart running alone.",
+      "Sealing other than sentries.  RVY has instruction sentries and no sealed objects (Murali Vijayaraghavan, 2026-10-01), so RP5 concerns sentries only."
+    ]
+  },
+  "nodes": [
+    {
+      "id": "G1",
+      "kind": "goal",
+      "text": "For the RVY Sail model at the pinned commit, every sentry-free instruction sequence never increases authority: every valid capability reachable in the final state confers no more authority (C4) than some valid capability reachable in the initial state.",
+      "supported_by": [
+        "S1"
+      ],
+      "in_context_of": [
+        "C1",
+        "C2",
+        "C4",
+        "A1",
+        "A2"
+      ]
+    },
+    {
+      "id": "S1",
+      "kind": "strategy",
+      "text": "Follow the T-CHERI method of the Morello proof: establish per-instruction monotonicity for every instruction the model defines, then lift it to sequences by induction on the sequence.  G4 is the expected crux, not the whole of G2.",
+      "supported_by": [
+        "G2",
+        "G3"
+      ],
+      "in_context_of": [
+        "J1"
+      ]
+    },
+    {
+      "id": "G2",
+      "kind": "goal",
+      "text": "Every RVY instruction other than a sentry call or return never increases authority: each valid capability it makes reachable confers no more authority than one that was reachable before it executed.",
+      "supported_by": [
+        "G4",
+        "G5"
+      ]
+    },
+    {
+      "id": "G3",
+      "kind": "goal",
+      "text": "Per-instruction monotonicity lifts to sentry-free sequences.",
+      "undeveloped": "The lifting lemma is not yet stated against the Sail model's semantics."
+    },
+    {
+      "id": "G4",
+      "kind": "goal",
+      "text": "The bounds-setting instructions (`YBNDSRW`, formerly `CSetBoundsRound`) yield a valid capability only if its bounds lie within the source capability's, under the RVY capability encoding.  When the encoding cannot represent the requested bounds without rounding outside the source's, the result must not be valid.",
+      "undeveloped": "Identified by Murali Vijayaraghavan (2026-10-01) as the non-trivial crux; it must be proved per encoding scheme, as `BoundsMonotonic` did for CHERIoT's."
+    },
+    {
+      "id": "G5",
+      "kind": "goal",
+      "text": "Every other non-sentry instruction (loads and stores, capability derivation and permission changes, tag handling, sentry creation, and special capability register access) never increases authority.",
+      "undeveloped": "Not yet decomposed: the instruction classes have not been enumerated against the model at the pinned commit."
+    },
+    {
+      "id": "C1",
+      "kind": "context",
+      "text": "The RVY specification is `riscv-cheri` at riscv/riscv-cheri@2946806c10910c12c1b9dc6153e9b0d56ccd8ce6 (tag `riscv-isa-release-2946806-2026-08-25`).  The model's commit 84515a85ead058eb2cc8bffb45496979f2dbdd7c carries the 2026-10-06 fix 'JALR must not unseal target cap on non-zero imm' (as 2d4a383) and three fixes of 2026-10-11: `05b24fa`, a JALR with a non-zero immediate to a sentry no longer leaves its tag set (Peter Rugg); and `77e0312` and `84515a8`, CBO.ZERO's large writes now clear every tag they cover (Jessica Clarke).  Both 2026-10-11 errors were found by Capabilities Limited's Rocq proof of its compartment prologue, and both are the kind of model error RP5 and RP4 are meant to catch."
+    },
+    {
+      "id": "C2",
+      "kind": "context",
+      "text": "Reachable capabilities: the valid (tagged) capabilities in the register file, the special capability registers, and the program counter capability, together with every valid capability in memory that can be loaded through a reachable capability, transitively.  Reachability is the transitive closure of the capability graph, irrespective of which memory any software believes it owns: memory a program once held but gave away and forgot is out of scope if it is unreachable, and memory it can reach without owning is in scope (Jessica Clarke, 2026-10-09).  The exact definition over the Sail model's state is part of the undeveloped G3."
+    },
+    {
+      "id": "C4",
+      "kind": "context",
+      "text": "Authority.  A capability confers no more authority than another when both are valid, its bounds lie within the other's, and its permissions are a subset of the other's.  Deriving new, distinct capabilities, for example by narrowing bounds, does not increase authority, which is why the property is stated about authority and not about the set of capabilities (Jessica Clarke, 2026-10-09).  Invalid (untagged) bit patterns confer no authority and are out of scope."
+    },
+    {
+      "id": "A1",
+      "kind": "assumption",
+      "status": "open",
+      "text": "The Sail model faithfully represents the RVY specification.  Capabilities Limited intends the model to become the specification, but it is not one yet; Trail of Bits' Sprint 1 audit tests exactly this assumption."
+    },
+    {
+      "id": "A2",
+      "kind": "assumption",
+      "status": "open",
+      "text": "The Sail toolchain translates the model faithfully into the proof assistant.  Capabilities Limited validates the model with Sail 0.18; the AIVHAI image carries Sail 0.20.2, and whether the two agree on this model is still being measured."
+    },
+    {
+      "id": "J1",
+      "kind": "justification",
+      "text": "The method has been mechanised for two complete CHERI ISAs (CHERI-MIPS, Nienhuis et al., IEEE S&P 2020; Morello, Bauereiss et al., ESOP 2022).  Whether it transfers to RVY without change, and A1 and A2, are open."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+rocq makefile -f _CoqProject -o Makefile.coq
+make -f Makefile.coq
+make[1]: Entering directory '/work'
+ROCQ DEP VFILES
+ROCQ compile src/Tactics.v
+ROCQ compile src/Utils.v
+ROCQ compile src/Spec.v
+ROCQ compile src/SpecLemmas.v
+ROCQ compile src/Properties.v
+File "./src/Properties.v", line 986, characters 6-263:
+Warning:
+The record UserModeInvariants could not be defined as a primitive record
+because it has no projections. [non-primitive-record,records,default]
+make[1]: Leaving directory '/work'

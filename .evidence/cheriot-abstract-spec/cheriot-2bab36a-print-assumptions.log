@@ -1,0 +1,3 @@
+From cheriot Require Import Properties.
+Print Assumptions ThreadIsolatedMonotonicity.ThreadIsolatedMonotonicity.
+Closed under the global context

@@ -1,0 +1,42 @@
+{
+  "provers": "ghcr.io/sigil-logic/aivhai-provers@sha256:baf1d248d3e30da5cb18809e4095723b52eefcf825882bb0bfcbf4a3ec634cd7",
+  "dirs": [
+    "docs/red-team/assurance-case",
+    "specs/assurance"
+  ],
+  "results": [
+    {
+      "case": "cheriot-thread-isolated-monotonicity",
+      "node": "E1",
+      "artifact": "Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f:src/Properties.v:2867",
+      "workdir": "Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f",
+      "rerun": "sed -n '2531,2880p' src/Properties.v",
+      "exit": 0,
+      "status": "ok",
+      "seconds": 0.6,
+      "log": "cheriot-thread-isolated-monotonicity-E1.log"
+    },
+    {
+      "case": "cheriot-thread-isolated-monotonicity",
+      "node": "E2",
+      "artifact": "Sigil-Logic/AIVHAI-Sigil@8b6d00fc9423bf67db39c0b13801e728eaf90286:.evidence/cheriot-abstract-spec/cheriot-2bab36a-print-assumptions.log",
+      "workdir": "Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f",
+      "rerun": "docker run --rm -v \"$PWD\":/work -w /work \"$AIVHAI_PROVERS\" bash -lc 'eval \"$(opam env --switch=saw --set-switch)\" && make >/dev/null && printf \"From cheriot Require Import Properties.\\nPrint Assumptions ThreadIsolatedMonotonicity.ThreadIsolatedMonotonicity.\\n\" > /tmp/pa.v && cat /tmp/pa.v && rocq compile -Q src cheriot /tmp/pa.v'",
+      "exit": 0,
+      "status": "ok",
+      "seconds": 6.7,
+      "log": "cheriot-thread-isolated-monotonicity-E2.log"
+    },
+    {
+      "case": "cheriot-thread-isolated-monotonicity",
+      "node": "E3",
+      "artifact": "Sigil-Logic/AIVHAI-Sigil@8b6d00fc9423bf67db39c0b13801e728eaf90286:.evidence/cheriot-abstract-spec/cheriot-2bab36a-build.log",
+      "workdir": "Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f",
+      "rerun": "docker run --rm -v \"$PWD\":/work -w /work \"$AIVHAI_PROVERS\" bash -lc 'eval \"$(opam env --switch=saw --set-switch)\" && make'",
+      "exit": 0,
+      "status": "ok",
+      "seconds": 4.6,
+      "log": "cheriot-thread-isolated-monotonicity-E3.log"
+    }
+  ]
+}

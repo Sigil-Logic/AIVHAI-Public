@@ -1,0 +1,9 @@
+{
+  "name": "aivhai-cd-mermaid",
+  "private": true,
+  "description": "Mermaid CLI for the AIVHAI CD image, pinned with its whole dependency tree by package-lock.json",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "11.4.0"
+  }
+}

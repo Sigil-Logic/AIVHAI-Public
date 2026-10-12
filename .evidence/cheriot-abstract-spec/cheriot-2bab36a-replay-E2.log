@@ -1,0 +1,11 @@
+Unable to find image 'ghcr.io/sigil-logic/aivhai-provers@sha256:baf1d248d3e30da5cb18809e4095723b52eefcf825882bb0bfcbf4a3ec634cd7' locally
+ghcr.io/sigil-logic/aivhai-provers@sha256:baf1d248d3e30da5cb18809e4095723b52eefcf825882bb0bfcbf4a3ec634cd7: Pulling from sigil-logic/aivhai-provers
+Digest: sha256:baf1d248d3e30da5cb18809e4095723b52eefcf825882bb0bfcbf4a3ec634cd7
+Status: Downloaded newer image for ghcr.io/sigil-logic/aivhai-provers@sha256:baf1d248d3e30da5cb18809e4095723b52eefcf825882bb0bfcbf4a3ec634cd7
+File "./src/Properties.v", line 986, characters 6-263:
+Warning:
+The record UserModeInvariants could not be defined as a primitive record
+because it has no projections. [non-primitive-record,records,default]
+From cheriot Require Import Properties.
+Print Assumptions ThreadIsolatedMonotonicity.ThreadIsolatedMonotonicity.
+Closed under the global context

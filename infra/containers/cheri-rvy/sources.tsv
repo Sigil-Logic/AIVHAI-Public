@@ -1,0 +1,21 @@
+# cheri-rvy sources -- the authoritative pin record for the aivhai-cheri-rvy image.  Issue #95.
+#
+# cheribuild follows branch tips.  Pinning cheribuild therefore pins the BUILD
+# LOGIC and not the toolchain, so every source it builds is pinned here, by
+# commit, and the Dockerfile fetches exactly that commit and hands it to
+# cheribuild with --<target>/source-directory and --skip-update.  cheribuild
+# never clones and never pulls.
+#
+# The same commits are pinned as submodules in AIVHAI-Everything (AIVHAI-Sigil#58).
+# A disagreement between the two records is a defect, not a detail.
+#
+# Branches are those cheribuild main names for its rvy-* targets as of
+# 9224aad4 (2026-09-30).  Each is a strict descendant of the reference Robert
+# Watson gave on AIVHAI-Sigil#95 (2026-09-29): LLVM +1 commit, QEMU +20.
+#
+# key	repository	branch	commit	commit_date	licence
+cheribuild	CTSRD-CHERI/cheribuild	main	9224aad4dd4dc88c42814ffd693549d24b42d5a8	2026-09-30	BSD-2-Clause
+rvy-llvm	Capabilities-Limited/cheri-alliance-llvm-project	rvy-099-wip	e0e01d44ba74292a9b3e98dba8a5a5e2d81c4c5b	2026-09-29	Apache-2.0 WITH LLVM-exception
+rvy-qemu	CHERI-Alliance/qemu	user/qwattash/rvfi-fixes	006d940ba985158b3d1ac4ad73f5ef8401d43b18	2026-09-24	GPL-2.0-only
+opensbi	qwattash/cheri-alliance-opensbi	cheri-rvy-099-toooba-fixes	e1a3e80e37b6edff62f428d579cc891511da627c	2026-09-30	BSD-2-Clause
+rvy-gdb	Capabilities-Limited/cheri-alliance-gdb	rvy-099-wip	abfa08a5356fdc43bc766b3fa6dfc4c2e267c0ce	2026-09-30	GPL-3.0-or-later

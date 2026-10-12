@@ -1,0 +1,163 @@
+{
+  "case": "cheriot-thread-isolated-monotonicity",
+  "title": "Assurance Case Example: CHERIoT Abstract Specification, Thread-Isolated Monotonicity",
+  "version": "0.3.1",
+  "status": "draft",
+  "date": "2026-10-09",
+  "summary": "A worked example of the form every AIVHAI assurance case takes, over a theorem that already exists and is proved: `ThreadIsolatedMonotonicity` in the CHERIoT abstract specification (Vijayaraghavan et al., `cheriot-abstract-spec`).  It is chosen because it is real, small, and has every feature a reader of such a case should look for: a precise statement, hypotheses that carry most of the weight, a scope restriction that makes the property vacuous outside it, and an open doubt raised by the specification's own author.  The theorem is about CHERIoT, a 32-bit embedded CHERI design; AIVHAI's target is a 64-bit application core, and nothing here transfers to it without further proof.  It is included in the Sprint 1 release for pedagogy, to show what a mechanised proof and a structured case around it look like, and is not a red-team target.",
+  "claim_scope": {
+    "covers": [
+      "The CHERIoT abstract specification at Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f, the fork's `main`, tagged `handoff/2026-10-12`: OpenSeCura/cheriot-abstract-spec at `f754796`, the last commit that builds on Rocq 9.1.0, plus the one-line `FuncNormal` fix (`3917ac6`, the same line as OpenSeCura `21cd9bf`, taken on its own) and comment-only documentation of `Properties.v` and `Spec.v`.",
+      "Executions whose entire trace so far consists of same-domain events: general instructions (`Ev_SameThread _ Ev_General`) and thread switches (`Ev_SwitchThreads`, which the specification models as no-ops).",
+      "One property of every such execution, `IsolatedMonotonicity`: each thread can reach only capabilities reachable from its initial state.  Pairwise-disjoint read/write reach of the threads (`IsolatedThreads`) is a hypothesis on the initial machine that the proof's invariant maintains along such executions; the theorem's conclusion does not state it."
+    ],
+    "excludes": [
+      "Every state after the first compartment call, compartment return, or exception.  The property is an implication from `SameDomainTrace` of the whole trace, so it holds vacuously from that point on; it does not say such events are safe.",
+      "The switcher.  Its contracts (`SwitcherProperty`, Properties.v lines 893-1798) are specification without proofs.",
+      "Any concrete instruction set.  Per-instruction monotonicity is a hypothesis carried by every instruction's type (`WfGeneralInst`, Spec.v line 684), not a result proved here for CHERIoT, RVY, or any other ISA.",
+      "Any particular capability encoding, fetch function, or decoder.  The theorem is stated for every instantiation of its section parameters (Properties.v lines 2540-2553); nothing in this development links `capToBytes` to `bytesToCapUnsafe`, and `FetchAddrsOk` is not among this module's hypotheses.",
+      "Sealed capabilities beyond the sentry mechanism (Properties.v line 223 TODO), MMIO (line 116 TODO), and shared objects (line 711 TODO).",
+      "Two specification-level gaps marked in the sources: the global memory invariant is commented out (`Inv_mem`, Properties.v line 457, 'TODO: prove these'), and the initial-stack condition is marked 'TODO: fix spec' (line 577).  Whether either affects the satisfiability of A1 or A2 has not been assessed.",
+      "Availability, liveness, and timing.  Isolation here is a safety property; it is not resource partitioning.",
+      "Microarchitecture, side channels, and any hardware implementation.  This is an abstract specification, not an RTL model."
+    ]
+  },
+  "nodes": [
+    {
+      "id": "G1",
+      "kind": "goal",
+      "text": "In the CHERIoT abstract specification, for every well-formed configuration and valid initial machine, in every state reachable by a same-domain trace, each thread's reachable capabilities lie within those reachable from its initial state.",
+      "supported_by": [
+        "S1"
+      ],
+      "in_context_of": [
+        "C1",
+        "C2",
+        "C3",
+        "A1",
+        "A2",
+        "A3",
+        "A4"
+      ]
+    },
+    {
+      "id": "S1",
+      "kind": "strategy",
+      "text": "Argue by an inductive invariant over the machine step relation, using `Combinators.always` (Utils.v line 27): establish the invariant initially, show every step preserves it, and show it implies the property.  The invariant is stronger than the property: along same-domain traces it carries thread isolation (`IsolatedThreads`) as well as monotonicity, because a step of one thread must not enlarge what an idle thread can reach.",
+      "supported_by": [
+        "G2",
+        "G3"
+      ],
+      "in_context_of": [
+        "J1"
+      ]
+    },
+    {
+      "id": "G2",
+      "kind": "goal",
+      "text": "The Rocq theorem `ThreadIsolatedMonotonicity` (Properties.v line 2867) states G1, its proof is closed with `Qed`, and the development builds with Rocq 9.1.0 in the `aivhai-provers` image.",
+      "supported_by": [
+        "E1",
+        "E3"
+      ]
+    },
+    {
+      "id": "G3",
+      "kind": "goal",
+      "text": "The development proves G2 from no unstated axioms and contains no admitted lemma on which the theorem depends.",
+      "supported_by": [
+        "E2"
+      ]
+    },
+    {
+      "id": "E1",
+      "kind": "solution",
+      "text": "The theorem and its proof script: the invariant `Invariant` (line 2637) is `GlobalInvariant` together with, on same-domain traces, `IsolatedThreads` and `IsolatedMonotonicity`; obligations `InvariantInitial`, `InvariantStep`, and `InvariantUse`.",
+      "evidence": {
+        "artifact": "Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f:src/Properties.v:2867",
+        "rerun": "sed -n '2531,2880p' src/Properties.v"
+      }
+    },
+    {
+      "id": "E2",
+      "kind": "solution",
+      "text": "`Print Assumptions ThreadIsolatedMonotonicity` run against the E3 build, its output recorded verbatim: the two-line query as echoed, then `Closed under the global context`, and nothing else.  A text search, which finds no `Admitted`, `Axiom`, `Parameter`, or `Hypothesis` outside sections in the five source files, is not evidence of this on its own, and does not examine axioms from imported libraries; the recorded output does.  Section parameters (C3) are abstracted into the statement and do not appear in it.",
+      "evidence": {
+        "artifact": "Sigil-Logic/AIVHAI-Sigil@8b6d00fc9423bf67db39c0b13801e728eaf90286:.evidence/cheriot-abstract-spec/cheriot-2bab36a-print-assumptions.log",
+        "rerun": "docker run --rm -v \"$PWD\":/work -w /work \"$AIVHAI_PROVERS\" bash -lc 'eval \"$(opam env --switch=saw --set-switch)\" && make >/dev/null && printf \"From cheriot Require Import Properties.\\nPrint Assumptions ThreadIsolatedMonotonicity.ThreadIsolatedMonotonicity.\\n\" > /tmp/pa.v && cat /tmp/pa.v && rocq compile -Q src cheriot /tmp/pa.v'",
+        "workdir": "Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f"
+      }
+    },
+    {
+      "id": "E3",
+      "kind": "solution",
+      "text": "The build log of the whole development, `make` on the `saw` switch (Rocq 9.1.0 with `rocq-stdlib` 9.0.0) inside the `aivhai-provers` image, recorded verbatim: five `.vo`, one pre-existing warning (a non-primitive record, Properties.v line 986); the exit status 0 is in the run's metadata file beside the log.  The image's `guru` switch, named here before, carries no standard library and does not build this development.",
+      "evidence": {
+        "artifact": "Sigil-Logic/AIVHAI-Sigil@8b6d00fc9423bf67db39c0b13801e728eaf90286:.evidence/cheriot-abstract-spec/cheriot-2bab36a-build.log",
+        "rerun": "docker run --rm -v \"$PWD\":/work -w /work \"$AIVHAI_PROVERS\" bash -lc 'eval \"$(opam env --switch=saw --set-switch)\" && make'",
+        "workdir": "Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f"
+      }
+    },
+    {
+      "id": "C1",
+      "kind": "context",
+      "text": "The step relation `MachineStep` and the event vocabulary are defined in Spec.v; `SameDomainEvent` (Properties.v line 2562) admits thread switches and general instructions only."
+    },
+    {
+      "id": "C2",
+      "kind": "context",
+      "text": "Related but separate: `BoundsMonotonic` (Sigil-Logic/cheriot@f76e94d5b8197e68b44e261294d7c38110975d2a, BoundsMonotonic.v line 3475) proves that the CHERIoT capability encoding's bounds computation never widens a decoded capability's bounds when the requested range already lies within them.  It is the kind of ISA-level result A3 would need for one encoding; it is not formally connected to this theorem."
+    },
+    {
+      "id": "C3",
+      "kind": "context",
+      "text": "The theorem is parametric: it holds for every instantiation of the section parameters `ISA_params`, `MachineTypeParams`, `CapEncodeDecode`, `fetchAddrs`, `decode`, `pccNotInBounds`, and `LookupExportTableCompartmentId` (Properties.v lines 2540-2553).  `CapEncodeDecode` (Spec.v lines 177-184) carries the two conversion functions, `bytesToCapUnsafe` and `capToBytes`, and equality deciders, with no law relating the conversions.  No concrete instantiation is claimed."
+    },
+    {
+      "id": "A1",
+      "kind": "assumption",
+      "status": "open",
+      "text": "`WFConfig config` (Properties.v line 350): compartment footprints are separated and every compartment is well formed.  Whether the configuration a real firmware image produces satisfies it is not established.  Status open: a hypothesis of the theorem, not yet shown to hold of any concrete system."
+    },
+    {
+      "id": "A2",
+      "kind": "assumption",
+      "status": "open",
+      "text": "`ValidInitialMachine config m` (line 2593): the initial state is valid and threads start with pairwise-disjoint read/write reach.  The theorem preserves isolation; it does not create it.  Status open: a hypothesis of the theorem, not yet shown to hold of any concrete system."
+    },
+    {
+      "id": "A3",
+      "kind": "assumption",
+      "status": "open",
+      "text": "Every instruction is well formed: `Inst_General` carries a proof of `WfGeneralInst`, which requires `WfNormalInst`, which includes per-instruction monotonicity (`ReachableCaps mem caps caps'`) and `FuncNormal`.  This is where most of the argument's weight sits: the theorem lifts an assumed per-instruction property to whole executions.  Status open: a hypothesis of the theorem, not yet shown to hold of any concrete system."
+    },
+    {
+      "id": "A4",
+      "kind": "assumption",
+      "status": "accepted",
+      "text": "The Rocq 9.1.0 kernel, and the toolchain in the `aivhai-provers` image (its `saw` switch: `rocq-core` 9.1.0, `rocq-stdlib` 9.0.0), are trusted.  Accepted as the conventional trusted base for a mechanized proof; stated so that it is visible."
+    },
+    {
+      "id": "J1",
+      "kind": "justification",
+      "text": "`Combinators.always` (Utils.v line 27) is defined, not assumed: `always step P init` holds when some invariant holds initially, is preserved by every step, and implies P.  The reading of G1 as 'in every reachable state' follows by induction on steps; the development has no separate lemma stating it."
+    },
+    {
+      "id": "D1",
+      "kind": "defeater",
+      "status": "rebutted",
+      "defeats": "A3",
+      "raised": "Murali Vijayaraghavan, the specification's author, 2026-10-08",
+      "text": "At `f754796`, `FuncNormal` (Spec.v lines 505-516) applied `normalInst` to memory `m1` twice (lines 508-509) where the second application was intended to use `m2`.  If so, the hypothesis that an instruction's behavior depends only on reachable memory was not the one stated, and A3 meant something other than intended.  Whether the stated form was weaker, stronger, or unsatisfiable by a real instruction, and therefore whether the theorem was weaker than intended or vacuous, had not been assessed.",
+      "resolution": "The author confirmed the slip and fixed it upstream (OpenSeCura `21cd9bf`, 2026-10-09).  The same line, taken on its own, is Sigil-Logic/cheriot-abstract-spec@3917ac6, in the commit this case pins: the second application now runs on `m2` (Spec.v line 622), so A3 states the intended hypothesis.  The proof script is otherwise unchanged from `f754796` apart from comments, and the theorem checks at the pinned commit: E3 and E2 are recorded there.  That rebuts the mis-statement.  The defeater's other question, whether the hypothesis as now stated is satisfiable by any instruction, is not answered by a build or by `Print Assumptions`; it is carried as D2."
+    },
+    {
+      "id": "D2",
+      "kind": "defeater",
+      "status": "open",
+      "defeats": "A3",
+      "raised": "Murali Vijayaraghavan, 2026-10-08, as the second half of D1; separated out 2026-10-09",
+      "text": "No instruction is shown to satisfy `WfNormalInst` as now stated (Spec.v lines 631-644: `FuncNormal`, then validity of the register file, a valid memory update, and `ReachableCaps` for the instruction's result).  `FuncNormal` (lines 618-627) ends in `| _, _ => False`, so an instruction whose two runs on reachable-equal memories disagree even in kind is excluded outright.  If no real instruction satisfies the hypothesis, A3 is unsatisfiable and the theorem is vacuous.  A witness, one instruction checked against the definition, would rebut this; the development contains none, and `Print Assumptions` cannot supply one, since `WfNormalInst` is a hypothesis of the theorem rather than something it proves."
+    }
+  ]
+}

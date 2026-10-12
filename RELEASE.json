@@ -1,0 +1,1190 @@
+{
+  "release": "2026-10-12-sprint-1-handoff",
+  "generated": "2026-10-12T00:28:36+00:00",
+  "source": {
+    "repository": "Sigil-Logic/AIVHAI-Sigil",
+    "commit": "f47a843f5eb0a86a22c101a70d346c55a092ada7",
+    "committed": "2026-10-11T17:27:24-07:00"
+  },
+  "filter": {
+    "allowlist": "release/public-allowlist.txt",
+    "exported": 109,
+    "dropped_by_bibliography_verdict": 75,
+    "dropped_by_exclude": [],
+    "lfs_unresolved": []
+  },
+  "scan": {
+    "failing": [],
+    "waived": [
+      {
+        "rule": "placeholder",
+        "path": "docs/red-team/assurance-case/README.md",
+        "line": 59,
+        "text": "With `--release`, which `cut-release.sh` runs on the cases at the released commit, it also refuses a placeholder such as `<DIGEST>` in a `rerun` command.  Comma",
+        "waiver": "release/public-allowlist.txt:96: explains the release check with an example"
+      },
+      {
+        "rule": "compensation",
+        "path": "docs/red-team/disclosure.md",
+        "line": 40,
+        "text": "1. **Cost, rate, staffing, and hiring material** (project policy SL-AIVHAI-P05): budgets, salaries, rates, invoices, effort allocations, and hiring deliberation",
+        "waiver": "release/public-allowlist.txt:86: the policy line naming what never crosses"
+      },
+      {
+        "rule": "staffing",
+        "path": "docs/red-team/disclosure.md",
+        "line": 40,
+        "text": "1. **Cost, rate, staffing, and hiring material** (project policy SL-AIVHAI-P05): budgets, salaries, rates, invoices, effort allocations, and hiring deliberation",
+        "waiver": "release/public-allowlist.txt:87: the policy line naming what never crosses"
+      },
+      {
+        "rule": "programme-repo",
+        "path": "docs/red-team/disclosure.md",
+        "line": 40,
+        "text": "1. **Cost, rate, staffing, and hiring material** (project policy SL-AIVHAI-P05): budgets, salaries, rates, invoices, effort allocations, and hiring deliberation",
+        "waiver": "release/public-allowlist.txt:88: the policy line names the programme repository nothing is exported from"
+      },
+      {
+        "rule": "currency",
+        "path": "docs/red-team/disclosure.md",
+        "line": 60,
+        "text": "| `currency`       | Sums in pounds, euros, or dollars: by symbol (`\u00a312`, `\u20ac12`, `$12`, `$1.50`, `$1,200`, `$12k`, `US$12`, `1200$`), by code (`GBP 12`, `12 GBP",
+        "waiver": "release/public-allowlist.txt:92: the scan-rule table row that gives examples of what it flags"
+      },
+      {
+        "rule": "compensation",
+        "path": "docs/red-team/disclosure.md",
+        "line": 61,
+        "text": "| `compensation`   | Salary, on-cost, day or hourly rate, billing rate, payroll, invoices, equity, overhead rate, budgeted hours                                ",
+        "waiver": "release/public-allowlist.txt:89: the scan-rule table row that defines the rule"
+      },
+      {
+        "rule": "staffing",
+        "path": "docs/red-team/disclosure.md",
+        "line": 62,
+        "text": "| `staffing`       | Hiring, recruitment, headcount, FTE, W-2 employment                                                                                        ",
+        "waiver": "release/public-allowlist.txt:90: the scan-rule table row that defines the rule"
+      },
+      {
+        "rule": "placeholder",
+        "path": "docs/red-team/disclosure.md",
+        "line": 67,
+        "text": "One rule fails a real release but only warns in the CI dry run: `placeholder`, an unfilled `<PLACEHOLDER>` in capitals of three or more characters.  That is the",
+        "waiver": "release/public-allowlist.txt:95: explains the rule with an example"
+      },
+      {
+        "rule": "placeholder",
+        "path": "scripts/release/check-assurance-case.py",
+        "line": 15,
+        "text": "such as <DIGEST> in rerun commands and",
+        "waiver": "release/public-allowlist.txt:99: the checker's docstring names the placeholder form it refuses"
+      },
+      {
+        "rule": "placeholder",
+        "path": "scripts/release/check-assurance-case.py",
+        "line": 350,
+        "text": "rel[\"nodes\"][2][\"evidence\"][\"rerun\"] = \"docker run img@<DIGEST> make\"",
+        "waiver": "release/public-allowlist.txt:100: a selftest negative control that plants a placeholder on purpose"
+      },
+      {
+        "rule": "placeholder",
+        "path": "specs/assurance/property-catalogue.jsonl",
+        "line": 830,
+        "text": "{\"id\": \"P-B-G043\", \"share\": \"B6-vme\", \"statement\": \"vtle<EEW>/vtse<EEW> transfer matrix tile subsets between tile state and memory and support TEW values corres",
+        "waiver": "release/public-allowlist.txt:102: row P-B-G043 quotes the VME instruction names vtle<EEW> and vtse<EEW>, not a placeholder"
+      }
+    ],
+    "warnings": [
+      {
+        "rule": "private-tracker",
+        "path": "docs/bibliography.md",
+        "line": 32,
+        "text": "**Citations are checked, not yet rendered.**  Turning a citation into a formatted reference with `pandoc --citeproc` waits for the documentation conventions to "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/bibliography.md",
+        "line": 113,
+        "text": "A transliteration is a derivative of its PDF and always takes the PDF's verdict.  **The public mirror ([#51](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 13,
+        "text": "The assurance case is multi-dimensional: proof, validation, and runtime verification and testing ([#51](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/51))."
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 17,
+        "text": "Murali Vijayaraghavan (Cherified) named both suites on [#176](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/176) on 2026-10-05, as what he tests the Guru-b"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 29,
+        "text": "2. **Scenario sources for the compartmentalisation firmware (CF).**  The RTOS suite exercises the same mechanisms that the 64-bit CF must provide: cross-compart"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 30,
+        "text": "3. **A differential cross-check.**  The same ELF can run on the Guru core and on the CHERIoT Sail emulator.  Disagreement between the two would locate a spec or"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 37,
+        "text": "- **No coverage claim follows.**  Per [#168](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/168), a coverage claim must name what is covered and by what.  N"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 48,
+        "text": "- **A home in Continuous Verification** ([#154](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/154)), once the validation practice says what these runs are "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 52,
+        "text": "[`cheriot-program-logic`](https://github.com/Sigil-Logic/cheriot-program-logic) is pinned again at `6bc57624` by [AIVHAI-Everything#7](https://github.com/Sigil-"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 56,
+        "text": "1. **The firmware goal G-CF** ([#226](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/226)).  The abstract specification's proved theorem, `ThreadIsolatedMon"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 64,
+        "text": "- **Nothing in it bears on G-a or G-c/d/e.**  Murali Vijayaraghavan's assessment that it is *\"not very useful for RVY\"* ([#176](https://github.com/Sigil-Logic/A"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 68,
+        "text": "Google copyright 2026, Apache-2.0, with a Google CLA on contributions.  The 2026-10-04 Decision on [#176](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/176"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 73,
+        "text": "- [#126](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/126): TestRIG, the other test-based evidence source in the corpus, and the one prior CHERI assurance"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "docs/evidence-candidates.md",
+        "line": 74,
+        "text": "- [#53](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/53): the red-team evidence package, which consumes whatever this register promotes"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/README.md",
+        "line": 39,
+        "text": "**A property is then checked twice over: dynamically and statically.**  Dynamically, by executing the artifact: running a model, simulating RTL, running firmwar"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/README.md",
+        "line": 57,
+        "text": "| Differential and tandem testing            | Dynamic           | The Sail model as the golden reference against CVA6-CHERI (TestRIG); a first differential tes"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/README.md",
+        "line": 82,
+        "text": "| [`threat-model.md`](threat-model.md)                   | The threat model ([#225](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/225)): assets, adversarie"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/README.md",
+        "line": 83,
+        "text": "| [`aivhai-case.json`](aivhai-case.json)                 | The assurance case ([#226](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/226)), in the Goal Stru"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/README.md",
+        "line": 85,
+        "text": "| [`property-provenance.md`](property-provenance.md)     | The census of prior work ([#242](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/242)): the canoni"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/README.md",
+        "line": 92,
+        "text": "The root goal is the proof series of [#1](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/1).  One strategy decomposes it by layer of the trusted computing b"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 13,
+        "text": "Before the NINJA domain model and requirements exist in full, the properties AIVHAI argues about come from the record: what has already been stated, tested, che"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 21,
+        "text": "**Sources.**  The 63 full texts in `docs/bib/` as of [#235](https://github.com/Sigil-Logic/AIVHAI-Sigil/pull/235), read in full by share, the CHERI-MIPS thesis "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 201,
+        "text": "| A-1, model agrees with specification          | boots, suites, the Morello ACK, TestRIG                                                                       "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 208,
+        "text": "| G-CF2, the Rocq model                    | the abstract specification's invariant scaffolding is proved; every switcher contract is stated without proof; the "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 210,
+        "text": "| G-CF6, IOPMP                             | tested mechanisms for MMIO and GPU drivers; nothing for an IOPMP                                                   "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 254,
+        "text": "| A mechanised refinement or security result for a capability-aware vector or matrix unit (G-a2, G-a3, G-c4)                                   | [#243](https://"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 255,
+        "text": "| A tenant confidentiality and integrity theorem across compartment and thread switches for vector and matrix state (threats TM-031 to TM-033) | [#245](https://"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 256,
+        "text": "| The IOPMP's correctness and the CF's lock discipline (G-CF6, TM-048)                                                                         | [#227](https://"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 257,
+        "text": "| Isolation on a 64-bit core with a privilege hierarchy and an MMU beneath mutually distrusting tenants (G-CF)                                 | [#245](https://"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 258,
+        "text": "| Refinement for an application-class, MMU-bearing, cached CHERI core (G-c1)                                                                   | [#244](https://"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 260,
+        "text": "| A mechanised composition of RTL correctness, an ISA security property and a firmware contract into one theorem (G-comp)                      | [#245](https://"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 261,
+        "text": "| RP1 over a RISC-V CHERI ISA, through any Sail backend                                                                                        | [#4](https://gi"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 265,
+        "text": "Candidates for the Sprint 2 property set ([#243](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/243))."
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 274,
+        "text": "| Tag-only writes are observable: a tag read relates to the last tag write                                                                                      "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/property-provenance.md",
+        "line": 289,
+        "text": "- **`cheriot-abstract-spec`**: the instruction level is assumed; the compressed encoding is abstracted away; the switcher contracts have no proof; the main theo"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 12,
+        "text": "This is the threat model AIVHAI's assurance case ([#226](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/226)) is stated against.  It says who attacks what, "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 20,
+        "text": "The claims this model supports are scoped by [#1](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/1) and [SL-AIVHAI-P04](../../docs/red-team/methodology.md#w"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 24,
+        "text": "AIVHAI is a 64-bit CVA6-CHERI application core with the Coral vector and matrix unit integrated **into the core**, running a CHERI compartmentalisation firmware"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 47,
+        "text": "- **What a capture means.**  With no weakening enabled, reaching an external asset falsifies either the trampoline's boundary invariants (G-CF4) or the ISA's co"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 60,
+        "text": "| Disposition                                                        | `G-x` a goal of the assurance case ([#226](https://github.com/Sigil-Logic/AIVHAI-Sigil/is"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 84,
+        "text": "| ADV-4                                                          | An instruction-sequence adversary against the ISA | Chooses any sentry-free instruction seque"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 107,
+        "text": "Each row is one threat.  The disposition names the assurance-case goal, assumption, exclusion, or gap that answers it.  A goal disposition names the most specif"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 113,
+        "text": "| TM-001                                                         | ADV-4     | AS-4       | E      | A sentry-free instruction sequence yields a capability not "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 115,
+        "text": "| TM-003                                                         | ADV-4     | AS-4       | E      | A sealed or sentry capability is unsealed, or keeps its tag"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 116,
+        "text": "| TM-004                                                         | ADV-1     | AS-1, AS-2 | I, T   | A VME load, store, or gather/scatter reaches memory without"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 117,
+        "text": "| TM-005                                                         | ADV-4     | AS-4       | E      | A VME instruction moves capability-sized data between vecto"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 118,
+        "text": "| TM-006                                                         | \u2014         | AS-4       | \u2014      | The Sail model does not agree with the RVY specification te"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 119,
+        "text": "| TM-007                                                         | ADV-4     | AS-4       | E      | The VME specification changes after the model was written, "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 128,
+        "text": "| TM-009                                                         | ADV-1        | AS-4       | E      | The two vector and matrix datapaths (SystemVerilog, Guru"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 177,
+        "text": "| TM-034                                                         | ADV-3                                                                  | AS-1, AS-3 | I, T   "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 178,
+        "text": "| TM-035                                                         | ADV-2 if the CF exposes the IOPMP registers to S-mode, otherwise ADV-8 | AS-6       | T      "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 182,
+        "text": "| TM-048                                                         | ADV-2, or ADV-8                                                        | AS-6       | T      "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 190,
+        "text": "| TM-041                                                         | ADV-5     | \u2014          | T      | The Sail-to-prover translation, the prover kernel, or the p"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 202,
+        "text": "| EXCL-1                                                         | Semantic benignity: that any model or agent behaves well, or \"reasons correctly\" | The claim "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 208,
+        "text": "| EXCL-7                                                         | DRAM and I/O outside the core                                                    | Proof c ex"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 209,
+        "text": "| EXCL-8                                                         | Transfer of the CHERIoT results to the 64-bit core without further proof         | CHERIoT ha"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 213,
+        "text": "A gap is a threat the project has not decided how to answer.  Each has an owner issue.  Gaps are disclosed to the red team through `docs/red-team/known-gaps.md`"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 217,
+        "text": "| GAP-1                                                          | Shared compartments and preemption: whether one caller may affect another's invocation of the"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 218,
+        "text": "| GAP-2                                                          | Requester-ID integrity at the fabric: the IOPMP specification leaves RRID tagging implementat"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 219,
+        "text": "| GAP-3                                                          | Ownership of the IOMMU tables: CF or general-purpose OS                                      "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 221,
+        "text": "| GAP-5                                                          | The VME specification is not frozen                                                          "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 222,
+        "text": "| GAP-6                                                          | Where the SystemVerilog and Guru refinement chains meet                                      "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 223,
+        "text": "| GAP-7                                                          | Root of trust for the boot image: whether a measured or authenticated boot is in the project'"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 224,
+        "text": "| GAP-8                                                          | Concurrency: the Sprint 1 target is sequential, and the multi-tenant platform is not         "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 233,
+        "text": "Pinned sources: `cheriot-sail` `archdoc/chap-intro.tex` \u00a7Threat model, `chap-compartment-model.tex`; `cheriot-rtos` `docs/architecture.md` (AIVHAI-Everything, ["
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 252,
+        "text": "| Security goal and main guarantee                                                                                                                              "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 275,
+        "text": "| Tag-stripping DMA by default; capability-aware DMA only for trustworthy engines                                                                               "
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 277,
+        "text": "| IOPMP: `MDCFG(m)` locked while `MDCFG(m-1)` is not allows entries to be added or removed in MD m; an unlocked higher-priority entry overrides locked lower-pri"
+      },
+      {
+        "rule": "private-tracker",
+        "path": "specs/assurance/threat-model.md",
+        "line": 330,
+        "text": "A mechanical check in the manner of VoteSecure's `test-validity-of-threat-model.yml` ([#53](https://github.com/Sigil-Logic/AIVHAI-Sigil/issues/53) C1b) is what "
+      }
+    ]
+  },
+  "files": {
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-2026-10-11.md": "f6e2d7bf57d3e434578df98caf2b6c751270f19f88be107b8d61325629b7b216",
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-build.log": "3831e4c5fb66407d3ad462af67381f2d6b20ae6cbbbad8623b1207e9873fc79f",
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-meta.txt": "91a3116096698c11e916362aba490ab793823898eeda6db49e08a45678b7f715",
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-print-assumptions.log": "5f13ec67563cf309afe71aeabd7e2d9b4281334199ca299f11fcde049ed9d776",
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-replay-2026-10-11.md": "7ac4d86fb3ff828111b2e7544880ab9ce6abc5c04c13e3688e56ff4b6bd78162",
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-replay-E1.log": "c098846284a933bff03f84273c59c870eca42cfb834a9699cd9a65866e931906",
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-replay-E2.log": "e3712ef3cdda191e185448424354120679baa8a11de631311cf6f91ea1ee4cde",
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-replay-E3.log": "3831e4c5fb66407d3ad462af67381f2d6b20ae6cbbbad8623b1207e9873fc79f",
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-replay.json": "515b57a28791554939aa87e5d67c05076c6a9d2e42106d80ea7787bd639f6a15",
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-toolchain.txt": "390897e8b7919ebe7d7c0a784bbcf090cbd92c55dee0006482b54b370bb662e0",
+    ".evidence/cheriot-abstract-spec/cheriot-2bab36a-vo.sha256": "35a4b403707c56569ccc9e7823f65aad516b9073934e1b7338a2ceb7c660140a",
+    "LICENSE": "008489bed3dea580e0eb7ef508b4adf778d1c1918e7cfb80a9e2709f6ce594c1",
+    "README.md": "d370fbbe35c35e27141a0605be5f618268c413a11809e0445276707c3a095d45",
+    "REDTEAM.md": "97a15bc071f32e6af8e2af0b803a63bdc755f4f755d4b11d9b1575b06656eb27",
+    "SECURITY.md": "519fa22399e7a7649419be635fec544e524ca3862df8f6cb8b3db1bb1ead0f1b",
+    "docs/bib/AirdAlmataryAmayaGarciaEtAl-25.md": "936cbb004e3e74558925e71f6c370349960df6ff6d618444dacb25f9186873bd",
+    "docs/bib/AirdAlmataryAmayaGarciaEtAl-25.pdf": "dd79ce6807e32710d501fe9ce0eb628409b39d626cf633d6a3eeb740bf8d8e42",
+    "docs/bib/AirdAlmataryAmayaGarciaEtAl-26a.md": "601d5fa8b30ac7eb1c56b29cf075b5a740e5f022b5018fbb1e06767012cc95bf",
+    "docs/bib/AirdAlmataryAmayaGarciaEtAl-26a.pdf": "6627cf96239fc31bc1a6d1d82df2361c332987e9a39e3e35e5e2dc1064e344ff",
+    "docs/bib/AirdAlmataryAmayaGarciaEtAl-26b.md": "6a29c46f4080d9190d59d998cc1f01208afaa28a24288e5868837572bd12a877",
+    "docs/bib/AirdAlmataryAmayaGarciaEtAl-26b.pdf": "cb19750e068cd2edbc903fc1cd31d32e539bfd906b17123b119569b9ad12203a",
+    "docs/bib/AmarAndersonChenEtAl-26.md": "b1c1a8b2666699975113b4885f8431b2f2637a49427b89b1be4efa4b00ab8386",
+    "docs/bib/AmarAndersonChenEtAl-26.pdf": "e8e7e7f1840a26fe98d2ccb1151eccc70268f4d1091836944991bf5735bd1536",
+    "docs/bib/AmarChenChisnallEtAl-25.md": "327bd69f2ffa295f99909b0f781e08f51aabde5c0b23744b260a0cef8313e741",
+    "docs/bib/AmarChenChisnallEtAl-25.pdf": "c3d0feea7958bf6a3c1db3c43478b9512ca5da55fa1e4401778a6127d10c129b",
+    "docs/bib/AmarChisnallChenEtAl-23.md": "8ff2d444062bee128b24df13644a1e72953ddf84967229beaa36ac478d4b2a6c",
+    "docs/bib/AmarChisnallChenEtAl-23.pdf": "1b5ac668d3cea415af550a2070cc9d71d69172a4a268bd272714fb3b95f284f0",
+    "docs/bib/ArmstrongBauereissCampbellEtAl-25.md": "f0ca35b1d003fe16cd9b038bc4e144741fa8b2341f061be619324dadbcf3fe31",
+    "docs/bib/BauereissCampbellSewellEtAl-22.md": "af3f96632278e4ecada33d978d3933d2edfa88eb7ea33f6817a379c0640a16bd",
+    "docs/bib/BauereissCampbellSewellEtAl-22.pdf": "f935226aa64b891612c7f120f7698ca4ca19a2179cb3ff4e5083de362020e661",
+    "docs/bib/BauereissNortonWrightClarke-21.md": "29685f499d833a1f1b52e85fa4ab3f504cd2583bf1842ae0d6678d4e2b9ecf1b",
+    "docs/bib/ChengMarkettosJoannouEtAl-25.md": "e3ea87640bde849a77b3822ac11621d6710fe9948c2a54092ab7ed75d8d072a7",
+    "docs/bib/ChengMarkettosJoannouEtAl-25.pdf": "ebbcbaa85dc14ae40ae90c70f248157231536451a87491e90fdabac2981a4c5f",
+    "docs/bib/FuchsWoodruffRuggEtAl-24.md": "f743fa3b6c7a5b3cd17092505c7d083875865c164a14fd1779e292c8b26b3d27",
+    "docs/bib/FuchsWoodruffRuggEtAl-24.pdf": "354d72d505ea550503998464f1a119da7777347d12a04659a9153b05410e8dd7",
+    "docs/bib/Gao-26.md": "305165b2b6030043796fa032209033d10800a2c861a9dfc51406c25b072defc7",
+    "docs/bib/Google-26a.md": "699a326804a0167ff8b51e86d9ca7bba3d89dec817a3adeca143c52939a95a40",
+    "docs/bib/Google-26b.md": "14d217e15376bb5630df1dbd1e941dca4642e2958cc34fc08289cca5ca571545",
+    "docs/bib/Google-26c.md": "eb3474626bfcabd484885fbdf0dd151987af259e9a83c3ef90ea2021e16be434",
+    "docs/bib/GrisenthwaiteBarnesWatsonEtAl-23.md": "505ec46ccc81129fedf1f9cd81c308419846b58b8d8ce0cba6b93fd971c039b3",
+    "docs/bib/GrisenthwaiteBarnesWatsonEtAl-23.pdf": "93aff8976e4d1eecfd645ea98715f2aa48fd5dacc17f3b0b9ed8b7bbc5a00e6f",
+    "docs/bib/HammondAlmeidaBauereissEtAl-25.md": "12e8141d20feb3926209fde0d6955f0cddde47e73243bc06ac58731cef988887",
+    "docs/bib/HammondAlmeidaBauereissEtAl-25.pdf": "f23710c47919c64bf9fe6af42e9ca780ae71136b44c17bbfe991070bd4037e80",
+    "docs/bib/JoannouRuggWoodruffEtAl-24.md": "af7c86c646dbe09bd58db384392052a55437ea616889d832086ccc3ea3655b75",
+    "docs/bib/JoannouRuggWoodruffEtAl-24.pdf": "a5d97e9cf93f2aa8c469595903b6bcbcbdbf264c907986805ad5a61c84374af2",
+    "docs/bib/Naylor-25.md": "9991f53cd1d6783b3cb895c685eaa5b4fea6d080898144c1f798352e381a96d5",
+    "docs/bib/NaylorWoodruff-17.md": "86e5c00f3f80fa37d9d0b91ee269df3d93a733a8b39f43c65bf4e092ea181100",
+    "docs/bib/PloixArmstrongMelhamEtAl-25.md": "10a46417e5dba60beca19c8d041d1eb515cbae46d0181b77a967c91b531c531c",
+    "docs/bib/PloixArmstrongMelhamEtAl-25.pdf": "a495c54e23aea96c6231c9158a5d68563352f53a0cec72c8b63bcd901ba50a4e",
+    "docs/bib/RISCVInternational-25a.md": "e6750ce413d57a501b5314f62815ca06b1943c064fcaeef7a2df0bcb865dfa45",
+    "docs/bib/RISCVInternational-25a.pdf": "cef2e63c08c6f82cf7acc9056a589954f5b1adf6f7dccaa38cd75278b093e984",
+    "docs/bib/RISCVInternational-25b.md": "d85bdfd4ea444f562852f76d027f18402ee9729a4edfbb4dd9818d0905b3d154",
+    "docs/bib/RISCVInternational-25b.pdf": "d0228bbecc76943aaa5685e381e0263a8c750d18b1b0c452b086b0ddd15a4955",
+    "docs/bib/RISCVInternational-26a.md": "92f8884698e721c133d1324907535a373f04550a3234400b701b134489860149",
+    "docs/bib/RISCVInternational-26a.pdf": "2a4e9695f35d8de0b8f19d98a835158f788ef84013b289a3b480de1fb011f830",
+    "docs/bib/RISCVInternational-26b.md": "4cae8a92cae4a457c419a686fb0b33f4d8226faedde8944d8e16266840a1920f",
+    "docs/bib/WatsonNeumannWoodruffEtAl-23.md": "14ae35dc831391f487ddddd7643abbad37387dd6b3055511f4ab1d34ed01b102",
+    "docs/bib/WatsonNeumannWoodruffEtAl-23.pdf": "1ec0be89959bf89f66805647219605e936c942d492073cd692407cdebe437afb",
+    "docs/bib/WatsonRichardsonDavisEtAl-26.md": "5123f1c3f6c5f1185f0658db411bdfe4653d22bcd22ef7055ae3f933762da472",
+    "docs/bibliography.md": "e1345cac4b1071937c3112bcd076a007140adfff7488aa42708f46b69bbc7a62",
+    "docs/evidence-candidates.md": "1312de0c5902247792af494a5c59f75597a78abd969e5a33c2858b893af994ef",
+    "docs/red-team/README.md": "c68f7f889e194fbde9374d196b3dd2498bc49436cc4621f0b8f8e5a7ca69d3e4",
+    "docs/red-team/assurance-case/README.md": "f7d39d58de9b61a16ba93e79e0593bd7349a72951357d51defd3b9836355779d",
+    "docs/red-team/assurance-case/cheriot-thread-isolated-monotonicity.case.json": "56d01a1b888b75bcddd2c7f702e4527b1afd7393e9666c02c8a813e9562e0810",
+    "docs/red-team/assurance-case/cheriot-thread-isolated-monotonicity.case.md": "ce6c6527bba1c7376c425ab7bc1e8fa76ada540df9324ef37529252f9cb36f41",
+    "docs/red-team/assurance-case/rvy-sail-monotonicity.case.json": "1d1e26ee364c43342ce14fc0897aad4e8f5d2f3bf7e21be618f776cce5b721dc",
+    "docs/red-team/assurance-case/rvy-sail-monotonicity.case.md": "81f88e2d6a033d940415f7a89fe8e59013cfd872db82ab05a95915c039acb32e",
+    "docs/red-team/disclosure.md": "6a4c28d2300e9e9d14900c9b31dabf038ee643ace30012110f59dce8767b7966",
+    "docs/red-team/findings.md": "72e7b12782df65ff8ae7f3e4c6799b63a9000ef73a5a82792c3b3e85f2b90042",
+    "docs/red-team/known-gaps.md": "96fc4a57b47bc4a3683b7ec1231ef90d66a4d1235e8bc43f2df385901b1122e1",
+    "docs/red-team/methodology.md": "6efc93ceb76b13bdf40818e0eac3956a6b79541b04f6bd7b0f75d7123e7656c8",
+    "docs/red-team/prior-engagements.md": "193acddc42e8e221b7add5b3d97a089bb6bb1533acb68b5afcc7d8915bc41e42",
+    "docs/red-team/schedule.md": "5ee0ca27369046d185fb5ca342b7ceb8dd5dc6ccaeeb2f4ec2bb56e763c44f7d",
+    "docs/red-team/sprint-1/handoff.md": "c9fdb92df76363265f8d7497482037a78efab946432ae6ca3bdcc95706d05c75",
+    "docs/red-team/sprint-1/isa-issues-2026-10-11.md": "dfcf683ab6e695e01e2cf5577495e63e46582be2aaeb62b0a0a7a99017d0c606",
+    "docs/red-team/templates/handoff-note.md": "a7c8b1d19e581494dc8ca3e2123892c9662caea7e112ab57a6f497702dda0a3a",
+    "docs/red-team/templates/weekly-release-note.md": "faf903fbd536929837c0093b24c7203c35ef1a132829c05ea788de652e22daed",
+    "infra/containers/base/Dockerfile": "0e41ea61c049d54257a71caf0015f2001e1e32253abb1e5b8bafc0720d11c6bd",
+    "infra/containers/build.sh": "f1b3d66bf9c29b51d0a3334f8d76115d22d697d8d086d3050d161c7bfa8a84ba",
+    "infra/containers/cd/Dockerfile": "b3361c6b68d369b5c3262c60d4ee18b6f503ecc951ea51133ce22a5764483f51",
+    "infra/containers/cd/mermaid.json": "47c60e4643dfe26885151b9caae024408d0850c83589e7b6474df1d3f1869fa2",
+    "infra/containers/cd/package-lock.json": "aa78521c572be68e25e7549eae6d3a3346eb1c5d79faaf40b00b9b6e98f45732",
+    "infra/containers/cd/package.json": "48093dc6d74002ad13c163786cc94965ff65df9b3172de84371604bc133b402c",
+    "infra/containers/cd/puppeteer.json": "d6b13bace72f3816a1189d9fae9538aa0382fcc767db5c0d2d501aefff6f64dd",
+    "infra/containers/cd/smoke.sh": "31fc423f84faa2d12e276e1b90dc84ed11dfcf8c69fd24166427378914c315d1",
+    "infra/containers/cheri-rvy/Dockerfile": "64b1cbba1df63dec3c948c7641ad6f3922244d73232b148447a8bafb32f97d67",
+    "infra/containers/cheri-rvy/fetch-pinned.sh": "cb480e748658670b4a3dcc9982989787279dcc9fc7b1073a3e693668e1f7440f",
+    "infra/containers/cheri-rvy/smoke.sh": "70f8d0f753d029cb6034e6ca535f32d04ee448abb13e9396760d097c4e462fd8",
+    "infra/containers/cheri-rvy/sources.tsv": "f7361e83a2fa231b7e5200afcdc7a8da14512d20c0741780cd58dfe017cc48cf",
+    "infra/containers/ci/Dockerfile": "ce6e89018f8a26306f4488bb09b3607a83b352a00aea3525664ba2d1372de35d",
+    "infra/containers/coral/README.md": "3e0239d7617e41334fbaddd88829943cb5b1876733800b297efdd5c6894f6436",
+    "infra/containers/extended-cv/Dockerfile": "556f97d0e08ed9b1847bbe6ed6e55cb31d1be3420021ff37d367b4d4aa575864",
+    "infra/containers/extended-cv/provenance.sh": "9effd138b89f7d2a72c3d1fcdae39e1a902a0de6c60ff6b6af6faf15bf858b95",
+    "infra/containers/haskell-galois/Dockerfile": "724b280aa6d484f0f53890af55ce8c414ae87aebc16e1a383684d2cdce25aee5",
+    "infra/containers/hdl-formal/Dockerfile": "9b651d8b25ec649a2259ab4a603cd35f857835a35691e7a3e0f487facfd9834f",
+    "infra/containers/images.json": "4b8c987bfbe78340cb414de5afdc1c4855121663fa80b4da7027c46c646b6074",
+    "infra/containers/negative-control.sh": "12221024c8c2d07f4f5b1bb08744b0c5168c2db8700145cd83bfdb25c190aea9",
+    "infra/containers/pin-images.sh": "66c4b64f76978431f16b813b97f2772b57cf4f65e6dc7060bb81e7b45e0d1478",
+    "infra/containers/provers/Dockerfile": "5a2752383885d927fea20e8742d443add921f481eafadb2e87712a4295f7447c",
+    "infra/containers/solvers/Dockerfile": "b8bbe415f48c0fb7bdf0d7bab4f00b88116c23eeff565551b2c8a4b6f6303312",
+    "scripts/assurance/check-threat-model.py": "58b195f6390fcfbdee0a39fe3b77e86d5fa476fc59e7ff01114859f3f54c1794",
+    "scripts/release/check-assurance-case.py": "7a048a9ce9dadeafa069566e1f00964176bb8c263b80bec0fbfd7cc7d2a59e0a",
+    "scripts/release/replay-evidence.py": "5665db6b3d2418b4b6ccf76faec1cf3784510bf7d80ae4dc53c7e83e6667755e",
+    "specs/assurance/README.md": "1595807f472ef7147aefa05c49db8034da734c20b0f95be20ffed2661d284e0d",
+    "specs/assurance/aivhai-case.json": "498f9d5b1762c6968bde6d4283834df12bb175ffc8e9f3bf0319e260839f5eea",
+    "specs/assurance/aivhai-case.md": "0a1f40585698e21b5235feefd8b9b849520d53c40e094a0ebc3358209d4b6487",
+    "specs/assurance/property-catalogue.jsonl": "9bf1970cc81f36680e78ed9d5179dae0f91b0c642c61d5f10cfcbc72633092e0",
+    "specs/assurance/property-provenance.md": "08f4d02541b8375fb1b5e943bdcdd0a72e97e0a4db0e429dea84e3ddaf6bf85f",
+    "specs/assurance/threat-model.md": "3a956346a0d787cacc62c64ed48c48895e501afd866e28607775a17742b7908e"
+  },
+  "pins": {
+    "aivhai_everything": {
+      "repository": "Sigil-Logic/AIVHAI-Everything",
+      "commit": "0cca9e107dc518c12fcdbce43dc0e1ef544d928b",
+      "visibility": "private",
+      "manifest": [
+        [
+          "Hardware/CapabilitiesLimited/cheri-cva6",
+          "Sigil-Logic/cheri-cva6",
+          "Capabilities-Limited/cheri-cva6",
+          "zcheri",
+          "98e7e4e1f28bc477c489ce8fbb6919c241f04138",
+          "2026-08-25",
+          "ip",
+          "SolderPad (+Berkeley, SiFive)",
+          "The CHERI-extended CVA6 application core; the core under proof"
+        ],
+        [
+          "Hardware/Google/coralnpu",
+          "Sigil-Logic/coralnpu",
+          "google-coral/coralnpu",
+          "main",
+          "094de4ec01e6b72a55f853c77022bb02ff0e17ca",
+          "2026-09-01",
+          "ip",
+          "Apache-2.0",
+          "Google's Coral NPU; the accelerator being made capability-aware"
+        ],
+        [
+          "Hardware/CapabilitiesLimited/cv-hpdcache",
+          "Sigil-Logic/cv-hpdcache",
+          "Capabilities-Limited/cv-hpdcache",
+          "cva6-zcheri-support",
+          "62a2b337a7befc0d9ccb65779c8def8f520e03c4",
+          "2026-07-17",
+          "ip",
+          "SolderPad",
+          "CVA6 high-performance data cache"
+        ],
+        [
+          "Hardware/CapabilitiesLimited/axi_cheri_tagcontroller",
+          "Sigil-Logic/axi_cheri_tagcontroller",
+          "Capabilities-Limited/axi_cheri_tagcontroller",
+          "main",
+          "257452306c023754a97f964538f29787081dfbec",
+          "2026-08-28",
+          "ip",
+          "SolderPad",
+          "AXI CHERI tag controller"
+        ],
+        [
+          "Hardware/CapabilitiesLimited/cheri-cap-lib",
+          "Sigil-Logic/cheri-cap-lib",
+          "Capabilities-Limited/cheri-cap-lib",
+          "master",
+          "1d2c0b953ba8e46a6503df7537a8eb02d8df6b5a",
+          "2025-03-07",
+          "ip",
+          "Apache-2.0",
+          "CHERI capability manipulation library"
+        ],
+        [
+          "Hardware/mocha",
+          "Sigil-Logic/mocha",
+          "lowRISC/mocha",
+          "main",
+          "2144ed44fa2aa98d1e74f09e18935625b2cb820b",
+          "2026-08-28",
+          "ip",
+          "Apache-2.0 / BSD-3-Clause / CC-BY-SA-4.0 (per-file)",
+          "lowRISC Mocha; forked from the lowRISC root, not CapLtd's stale fork"
+        ],
+        [
+          "Hardware/RISC-V/sail-riscv",
+          "Sigil-Logic/sail-riscv",
+          "riscv/sail-riscv",
+          "master",
+          "1dbe99326c0765ac07919b5a0213dc30098339ff",
+          "2026-08-31",
+          "ip",
+          "BSD-2-Clause (deps excepted)",
+          "The baseline RISC-V Sail ISA model"
+        ],
+        [
+          "Hardware/CapabilitiesLimited/sail-cheri-riscv",
+          "Sigil-Logic/sail-cheri-riscv",
+          "Capabilities-Limited/sail-cheri-riscv",
+          "0.9.9-undo-branch-restriction",
+          "84515a85ead058eb2cc8bffb45496979f2dbdd7c",
+          "2026-10-11",
+          "ip",
+          "BSD-style",
+          "The RVY adaptation of the RISC-V Sail model; the Sprint 1 modelling target, and the model handed to the red team for Sprint 1"
+        ],
+        [
+          "Hardware/RISC-V/riscv-cheri",
+          "Sigil-Logic/riscv-cheri",
+          "riscv/riscv-cheri",
+          "main",
+          "2946806c10910c12c1b9dc6153e9b0d56ccd8ce6",
+          "2026-08-25",
+          "ip",
+          "CC-BY-4.0",
+          "The RVY draft specification; CC-BY imposes attribution duties on derivatives"
+        ],
+        [
+          "Hardware/RISC-V/riscv-vme",
+          "Sigil-Logic/riscv-vme",
+          "riscv/riscv-vme",
+          "main",
+          "5570c7b2b8e2d5b28b3627a0bbed57bf3afb4e6a",
+          "2026-07-28",
+          "ip",
+          "CC-BY-4.0",
+          "The Vector Matrix Extension specification repository (issue #48); normative text not yet public"
+        ],
+        [
+          "Hardware/Morello/sail-morello",
+          "Sigil-Logic/sail-morello",
+          "CTSRD-CHERI/sail-morello",
+          "main",
+          "2305f656ff84619caf50107f49dae7be52aec72b",
+          "2026-10-02",
+          "ip",
+          "BSD-3-Clause-Clear (explicitly grants no patent rights)",
+          "The Sail Morello ISA model, the artifact the ESOP 2022 monotonicity proof and Morello-Cerise were made over; held as the fixed prior-art comparison target for AIVHAI-Sigil#4 and AIVHAI-Sigil#52 C4 (AIVHAI-Sigil#117)"
+        ],
+        [
+          "Hardware/OpenSeCura/cheriot",
+          "Sigil-Logic/cheriot",
+          "OpenSeCura/cheriot",
+          "main",
+          "f76e94d5b8197e68b44e261294d7c38110975d2a",
+          "2026-10-04",
+          "ip",
+          "Apache-2.0",
+          "CHERIoT implementation in Guru (OpenSeCura lineage)"
+        ],
+        [
+          "Hardware/OpenSeCura/cheriot-abstract-spec",
+          "Sigil-Logic/cheriot-abstract-spec",
+          "OpenSeCura/cheriot-abstract-spec",
+          "main",
+          "f754796a3bb8c31823fe82df213d630752aacaf3",
+          "2026-06-11",
+          "ip",
+          "Apache-2.0",
+          "Formalisation of the CHERIoT+RTOS model"
+        ],
+        [
+          "Hardware/OpenSeCura/cheriot-program-logic",
+          "Sigil-Logic/cheriot-program-logic",
+          "OpenSeCura/cheriot-program-logic",
+          "main",
+          "6bc57624b3502051d17b8d7c866e64e81531428a",
+          "2026-10-09",
+          "ip",
+          "Apache-2.0",
+          "CHERIoT ISA-level program logic: a weakest-precondition semantics and separation logic over about fifty CHERIoT instructions, with a verified subset of the cheriot-rtos switcher's context-restore path.  Held as the method reference and candidate bridge for the firmware goal G-CF (AIVHAI-Sigil#226) and the abstract spec's unproved switcher contracts; not evidence -- 2 axioms, 4 Admitted lemmas, 7 Admitted ISA definitions, no exception-delivery or trap semantics (exception conditions are detected, then routed to a TODO), no interrupts, XLEN fixed at 32.  Dropped 2026-10-04; restored in 1c0fa23 on 2026-10-09, recorded by the AIVHAI-Sigil#176 Decision of 2026-10-10; pinned, not built"
+        ],
+        [
+          "Hardware/sail",
+          "Sigil-Logic/sail",
+          "rems-project/sail",
+          "sail2",
+          "5745ea9e5369ab4fc51de6f8b773dd8ebc323357",
+          "2026-08-26",
+          "tool",
+          "BSD-2-Clause (aarch64/, logo, THIRD_PARTY_FILES.md excepted)",
+          "The Sail language and tool; forked because extending RVY may require changing the implementation"
+        ],
+        [
+          "Hardware/Guru",
+          "Sigil-Logic/Guru",
+          "Cherified/Guru",
+          "main",
+          "b72afeefede3e350e238eb7395d19e7900759ddd",
+          "2026-10-01",
+          "tool",
+          "MIT",
+          "Cherified's Rocq-based DSL; substrate for the Guru leg of the datapath proof"
+        ],
+        [
+          "Tools/CapabilitiesLimited/TestRIG",
+          "Sigil-Logic/TestRIG",
+          "Capabilities-Limited/TestRIG",
+          "cva6",
+          "50918d7fda5d6e3a32b6f97b91f586cfb47b7e7d",
+          "2026-06-11",
+          "tool",
+          "BSD-2-Clause",
+          "Cambridge's RISC-V verification harness"
+        ],
+        [
+          "Tools/CapabilitiesLimited/cva6_cheri_pkg_verif",
+          "Sigil-Logic/cva6_cheri_pkg_verif",
+          "Capabilities-Limited/cva6_cheri_pkg_verif",
+          "zcheri",
+          "612cf0146795b110752ce49751c6605a21e9f16b",
+          "2025-11-06",
+          "tool",
+          "Apache-2.0",
+          "CVA6-CHERI package verification environment"
+        ],
+        [
+          "Tools/Galois/cryptol",
+          "Sigil-Logic/cryptol",
+          "GaloisInc/cryptol",
+          "master",
+          "74055e46326901f371b61bcdaa4ee02828088350",
+          "2026-09-04",
+          "tool",
+          "BSD-3-Clause",
+          "The specification language"
+        ],
+        [
+          "Tools/Galois/saw-script",
+          "Sigil-Logic/saw-script",
+          "GaloisInc/saw-script",
+          "master",
+          "c32ce784413782364b1b4aa64e9b9f08e575523e",
+          "2026-09-02",
+          "tool",
+          "BSD-3-Clause",
+          "SAW, including the Yosys/RTL frontend"
+        ],
+        [
+          "Tools/Galois/crucible",
+          "Sigil-Logic/crucible",
+          "GaloisInc/crucible",
+          "master",
+          "37b8dd21cdf91947d7f65e785cb1ebbbee15cc22",
+          "2026-08-26",
+          "tool",
+          "BSD-3-Clause",
+          "Crucible, crux-llvm, crux-mir"
+        ],
+        [
+          "Tools/Galois/cryptol-specs",
+          "Sigil-Logic/cryptol-specs",
+          "GaloisInc/cryptol-specs",
+          "master",
+          "0de36bc45ab3e5cce9dc12fec41a88558377383c",
+          "2026-09-04",
+          "tool",
+          "BSD-3-Clause",
+          "Algorithm specifications"
+        ],
+        [
+          "Tools/Galois/cryptol-refined-specs",
+          "Sigil-Logic/cryptol-refined-specs",
+          "GaloisInc/cryptol-refined-specs",
+          "main",
+          "893b5eca8bfd10cc171d1010e576ed64b03e9548",
+          "2026-07-14",
+          "tool",
+          "BSD-3-Clause",
+          "Specs deviating from the published ones"
+        ],
+        [
+          "Tools/Galois/what4",
+          "Sigil-Logic/what4",
+          "GaloisInc/what4",
+          "master",
+          "a8401c9f2221755ac94d3a456d028752c7188d7c",
+          "2026-09-01",
+          "tool",
+          "BSD-3-Clause (per-package)",
+          "Symbolic formulae and solver interaction"
+        ],
+        [
+          "Tools/Galois/parameterized-utils",
+          "Sigil-Logic/parameterized-utils",
+          "GaloisInc/parameterized-utils",
+          "master",
+          "0423981e27499d956ec084e8420b55ac49200c47",
+          "2026-08-27",
+          "tool",
+          "BSD-3-Clause",
+          "Indexed-type utilities"
+        ],
+        [
+          "Tools/Galois/aig",
+          "Sigil-Logic/aig",
+          "GaloisInc/aig",
+          "master",
+          "2abab5f9fd1c2e6c1842d0af803985d277c0bb36",
+          "2026-04-08",
+          "tool",
+          "BSD-3-Clause",
+          "And-Inverter Graphs; the bit-level representation RTL proofs pass through"
+        ],
+        [
+          "Tools/Galois/abcBridge",
+          "Sigil-Logic/abcBridge",
+          "GaloisInc/abcBridge",
+          "master",
+          "71eaee9171d581ebc6ea23c5e4b0ccf8742ab3c1",
+          "2026-04-09",
+          "tool",
+          "BSD-3-Clause",
+          "Haskell bindings to ABC"
+        ],
+        [
+          "Tools/Galois/llvm-pretty",
+          "Sigil-Logic/llvm-pretty",
+          "GaloisInc/llvm-pretty",
+          "master",
+          "6284836b980a7b91fb394cb5f1a386e6a955e006",
+          "2026-08-27",
+          "tool",
+          "BSD-3-Clause",
+          "LLVM bitcode pretty-printer"
+        ],
+        [
+          "Tools/Galois/llvm-pretty-bc-parser",
+          "Sigil-Logic/llvm-pretty-bc-parser",
+          "GaloisInc/llvm-pretty-bc-parser",
+          "master",
+          "41bcf5d036135feda1995393004c62331a283531",
+          "2026-08-28",
+          "tool",
+          "BSD-3-Clause",
+          "Bitcode parser; the path into C firmware"
+        ],
+        [
+          "Tools/Galois/argo",
+          "Sigil-Logic/argo",
+          "GaloisInc/argo",
+          "master",
+          "6ce0b65208344eadeb8960af27efba015ee08363",
+          "2026-09-02",
+          "tool",
+          "BSD-3-Clause (per-package)",
+          "JSON-RPC behind cryptol-remote-api and saw-remote-api; how HOARDE drives these tools"
+        ],
+        [
+          "Tools/Galois/mir-json",
+          "Sigil-Logic/mir-json",
+          "GaloisInc/mir-json",
+          "master",
+          "8cbf9af1821075ef47cf784fef78d2650827730d",
+          "2026-08-31",
+          "tool",
+          "Apache-2.0 OR MIT",
+          "rustc plugin emitting MIR JSON; crux-mir cannot run without it"
+        ],
+        [
+          "Tools/Galois/what4-solvers",
+          "Sigil-Logic/what4-solvers",
+          "GaloisInc/what4-solvers",
+          "main",
+          "8eaa4d8396d7189459fcedec5a4f940554071ec9",
+          "2026-06-25",
+          "tool",
+          "NONE DECLARED - read before shipping",
+          "Solver binaries; licence position unresolved upstream"
+        ],
+        [
+          "Hardware/PULP/ara",
+          "Sigil-Logic/ara",
+          "pulp-platform/ara",
+          "main",
+          "34bd3bc152421b4601a7bf3d6e8e91ffb545c99e",
+          "2026-08-16",
+          "ip",
+          "SolderPad (read from LICENSE)",
+          "PULP vector coprocessor for CVA6; not used as a vector unit, forked for its CVA6 extension interfaces for attaching the Coral vector and matrix unit"
+        ],
+        [
+          "Hardware/rocq-stdlib",
+          "-",
+          "rocq-prover/stdlib",
+          "master",
+          "cbba1ca6b94a4ab277dd1db8a5a6f6085bc97abb",
+          "2025-07-29",
+          "tool",
+          "LGPL-2.1-only",
+          "Rocq stdlib with Zmod, at cbba1ca6: Guru needs it, and the provers guru switch ships no stdlib (AIVHAI-Sigil#176).  cheriot-program-logic's README names the same commit.  Pinned, not forked"
+        ],
+        [
+          "Hardware/stdpp",
+          "-",
+          "gitlab.mpi-sws.org/iris/stdpp",
+          "master",
+          "2cc64eaa514349611a65def8a8a588c42963d886",
+          "2026-10-09",
+          "tool",
+          "BSD-3-Clause",
+          "stdpp sibling checkout for cheriot-program-logic; pinned, not forked, at the commit its README names.  Hosted on GitLab, so drift.sh cannot query it.  Restored 2026-10-09 with cheriot-program-logic"
+        ],
+        [
+          "Hardware/coqutil",
+          "-",
+          "mit-plv/coqutil",
+          "master",
+          "1f7c323c1dfe96498019e2d9a159337deb1b436e",
+          "2026-10-09",
+          "tool",
+          "MIT",
+          "coqutil sibling checkout for cheriot-program-logic; pinned, not forked, at the commit its README names.  Restored 2026-10-09 with cheriot-program-logic"
+        ],
+        [
+          "Tools/CTSRD-CHERI/cheribuild",
+          "-",
+          "CTSRD-CHERI/cheribuild",
+          "main",
+          "9224aad4dd4dc88c42814ffd693549d24b42d5a8",
+          "2026-09-30",
+          "tool",
+          "BSD-2-Clause",
+          "The CHERI build orchestrator; builds aivhai-cheri-rvy (AIVHAI-Sigil#95).  It follows branch tips, so pinning it pins build logic only -- the sources it builds are pinned in the rows below"
+        ],
+        [
+          "Tools/CHERI-Alliance/qemu",
+          "Sigil-Logic/qemu",
+          "CHERI-Alliance/qemu",
+          "user/qwattash/rvfi-fixes",
+          "006d940ba985158b3d1ac4ad73f5ef8401d43b18",
+          "2026-09-24",
+          "tool",
+          "GPL-2.0-only (per-file variation; see tools.md)",
+          "CHERI QEMU: qemu-system-riscv64y for RVY 0.9.9 with the RVFI-DII fixes TestRIG tandem runs need; built into aivhai-cheri-rvy"
+        ],
+        [
+          "Tools/CapabilitiesLimited/cheri-alliance-llvm-project",
+          "-",
+          "Capabilities-Limited/cheri-alliance-llvm-project",
+          "rvy-099-wip",
+          "e0e01d44ba74292a9b3e98dba8a5a5e2d81c4c5b",
+          "2026-09-29",
+          "tool",
+          "Apache-2.0 WITH LLVM-exception",
+          "RVY 0.9.9 LLVM, Clang and LLD; the compiler of every binary a machine-code proof covers; built into aivhai-cheri-rvy.  Pinned, not forked: consumed, not altered"
+        ],
+        [
+          "Tools/CapabilitiesLimited/cheri-alliance-gdb",
+          "-",
+          "Capabilities-Limited/cheri-alliance-gdb",
+          "rvy-099-wip",
+          "abfa08a5356fdc43bc766b3fa6dfc4c2e267c0ce",
+          "2026-09-30",
+          "tool",
+          "GPL-3.0-or-later",
+          "RVY GDB; built into aivhai-cheri-rvy.  Pinned, not forked"
+        ],
+        [
+          "Tools/qwattash/cheri-alliance-opensbi",
+          "-",
+          "qwattash/cheri-alliance-opensbi",
+          "cheri-rvy-099-toooba-fixes",
+          "e1a3e80e37b6edff62f428d579cc891511da627c",
+          "2026-09-30",
+          "tool",
+          "BSD-2-Clause",
+          "RVY OpenSBI -- CHERI-Alliance/opensbi PR #8 (unmerged) plus FPGA changes; the fw_dynamic.bin that qemu-system-riscv64y boots; built into aivhai-cheri-rvy.  Pinned, not forked"
+        ],
+        [
+          "Hardware/OpenSeCura/basic-riscv-tests-cheriot",
+          "-",
+          "OpenSeCura/basic-riscv-tests-cheriot",
+          "main",
+          "d028d7cbd2e6a46dbd82a6314cf79283efdf35aa",
+          "2026-09-15",
+          "ip",
+          "BSD-3-Clause",
+          "CHERIoT per-instruction ISA tests; cheriot's Makefile compiles simple.elf from it into Binary.v, the initial memory of the instantiated spec and implementation (SpecInst.v, Impl/ImplInst.v) that simulation and RTL generation run; no theorem depends on it, but the Rocq build cannot complete without it (AIVHAI-Sigil#176).  Sits beside cheriot because its Makefile reads ../basic-riscv-tests-cheriot.  Pinned, not forked: consumed, not altered"
+        ],
+        [
+          "Tools/CHERIoT-Platform/cheriot-rtos",
+          "-",
+          "CHERIoT-Platform/cheriot-rtos",
+          "main",
+          "17ae734ba98e4f084bfaa2bf07f0447ca4d7e127",
+          "2026-09-07",
+          "tool",
+          "MIT",
+          "CHERIoT RTOS; its tests/ suite is what Murali Vijayaraghavan tests the Guru-based cheriot core with (AIVHAI-Sigil#176), and a candidate source of assurance-case validation evidence.  Pinned, not forked; whether to fork it as G2 firmware is AIVHAI-Sigil#54's decision.  Also the text of docs/architecture.md and docs/faq.md the AIVHAI threat model cites, register entry CHERIoTPlatform-26 (AIVHAI-Sigil#225, #232)"
+        ],
+        [
+          "Tools/CHERIoT-Platform/llvm-project",
+          "-",
+          "CHERIoT-Platform/llvm-project",
+          "cheriot-clang22",
+          "b62de6f497f53c61b5dda594fa1a1612550bdcfa",
+          "2026-03-25",
+          "tool",
+          "Apache-2.0 WITH LLVM-exception",
+          "CHERIoT LLVM, at the commit Murali Vijayaraghavan builds basic-riscv-tests-cheriot with (AIVHAI-Sigil#176); compiles the binary cheriot's Rocq build embeds, and the cheriot-rtos tests.  Distinct from the RVY LLVM above.  Pinned, not forked"
+        ],
+        [
+          "Hardware/RISC-V/riscv-iopmp",
+          "Sigil-Logic/riscv-iopmp",
+          "riscv-non-isa/riscv-iopmp",
+          "main",
+          "b2d6a5c9698a6286a8989e0ebb7cb9d09a0a15cc",
+          "2026-10-09",
+          "ip",
+          "CC-BY-4.0",
+          "The RISC-V IOPMP specification: the control on peripheral DMA that the compartmentalisation firmware depends on for self-protection (AIVHAI-Sigil#227).  Its Configuration Protection chapter is a source the AIVHAI threat model traces to (AIVHAI-Sigil#225, #232)"
+        ],
+        [
+          "Hardware/RISC-V/riscv-iommu",
+          "Sigil-Logic/riscv-iommu",
+          "riscv-non-isa/riscv-iommu",
+          "main",
+          "875e15459ef7ac99dfd313b2a8c0a19dba742e59",
+          "2026-10-09",
+          "ip",
+          "CC-BY-4.0",
+          "The RISC-V IOMMU specification: the second control on peripheral DMA (AIVHAI-Sigil#227).  Its only threat text is the Usage models section, cited by the AIVHAI threat model (AIVHAI-Sigil#225, #232)"
+        ],
+        [
+          "Hardware/CHERIoT-Platform/cheriot-sail",
+          "-",
+          "CHERIoT-Platform/cheriot-sail",
+          "main",
+          "518813ec3e595f79930d9129eaded2521831cbe2",
+          "2026-10-09",
+          "ip",
+          "BSD-2-Clause (prover_snapshots excepted)",
+          "The CHERIoT ISA Sail model and its architecture document.  archdoc chap-intro.tex Threat model and chap-compartment-model.tex are the compartment-level adversary model the AIVHAI threat model traces to (AIVHAI-Sigil#225, #232).  Pinned, not forked: cited, neither altered nor verified; the CHERIoT lineage we verify is cheriot-abstract-spec and Guru's cheriot"
+        ],
+        [
+          "Hardware/CHERIoT-Platform/book",
+          "-",
+          "CHERIoT-Platform/book",
+          "main",
+          "3d520968374ae0fcbf1ad6d34b89631f3637270b",
+          "2026-10-09",
+          "ip",
+          "CC BY-NC 4.0 (text, David Chisnall); MIT (listings from CHERIoT RTOS)",
+          "The CHERIoT Programmers' Guide sources.  text/compartments.igk Choosing a trust model gives the Sandbox / Safebox / Mutual-distrust taxonomy the AIVHAI threat model classifies compartments with (AIVHAI-Sigil#225, #232).  Pinned, not forked.  NonCommercial licence: cite, do not derive"
+        ],
+        [
+          "Hardware/CapabilitiesLimited/aivhai-fw-compartment",
+          "-",
+          "Capabilities-Limited/aivhai-fw-compartment",
+          "main",
+          "9691cf2e0c092f880f0aa57c7c3e70abf95b1b1e",
+          "2026-10-11",
+          "ip",
+          "BSD-2-Clause",
+          "Capabilities Limited's Sprint 1 bare-metal compartment firmware (Hesham Almatary), the red team's second evaluation artifact; pinned, not forked.  Built by cheribuild's aivhai-opensbi branch, whose rvy-sail-riscv target builds sail-cheri-riscv 0.9.9-undo-branch-restriction"
+        ]
+      ]
+    },
+    "images": {
+      "aivhai-base": "ghcr.io/sigil-logic/aivhai-base@sha256:4ed58c62f30fd613f7eacc77695c515bfa5ed988dd82835dcf5a451c2bde3536",
+      "aivhai-solvers": "ghcr.io/sigil-logic/aivhai-solvers@sha256:3843d5e9ff33e60a2658fd176d7817dc9d9fd0c3a5b6097aadc50014e18de7d4",
+      "aivhai-haskell-galois": "ghcr.io/sigil-logic/aivhai-haskell-galois@sha256:82634defee9dc126569787055b6970ad8ab13534cff14484e5b55c3a37662dd3",
+      "aivhai-hdl-formal": "ghcr.io/sigil-logic/aivhai-hdl-formal@sha256:8249e30b32e54b93c6a81c71924abf7bd974ecf941a96f537ca928970e9d1db5",
+      "aivhai-extended-cv": "ghcr.io/sigil-logic/aivhai-extended-cv@sha256:96dddc3fd1681e2f91691a0249092676c9c97977a800eabac8dc9d01cf6b574a",
+      "aivhai-provers": "ghcr.io/sigil-logic/aivhai-provers@sha256:baf1d248d3e30da5cb18809e4095723b52eefcf825882bb0bfcbf4a3ec634cd7",
+      "aivhai-coral": "ghcr.io/sigil-logic/aivhai-coral@sha256:09120593e2241d74c8da6fe1daf4e9a64b41cf56be30941207555bf0a8c19f09",
+      "aivhai-cheri-rvy": "ghcr.io/sigil-logic/aivhai-cheri-rvy@sha256:574aea2ed1c8e39d3a29a2d515fbc99d8052c7321291980754b26de205b95aaf",
+      "aivhai-ci": "ghcr.io/sigil-logic/aivhai-ci@sha256:385ba307925a3858cda3bf193614530e0ae0cc5618926f1e19503cbd7eb4b639"
+    },
+    "targets": {
+      "sail-cheri-riscv": "Capabilities-Limited/sail-cheri-riscv@84515a85ead058eb2cc8bffb45496979f2dbdd7c",
+      "cheriot-abstract-spec": "Sigil-Logic/cheriot-abstract-spec@2bab36ad8c0bd25765d0f2dba1e12654abd4157f",
+      "aivhai-fw-compartment": "Capabilities-Limited/aivhai-fw-compartment@9691cf2e0c092f880f0aa57c7c3e70abf95b1b1e"
+    },
+    "source_unmerged": false
+  }
+}
